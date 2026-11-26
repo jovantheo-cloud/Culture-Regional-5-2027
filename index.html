@@ -322,6 +322,28 @@
   .sync-dot.busy { background: #facc15; }
   .sync-dot.err { background: #f87171; }
   body.present-mode .sync-pill { display: none !important; }
+  body.present-mode .save-toast { display: none !important; }
+
+  .sync-pill.ok { background: rgba(22, 101, 52, 0.85); border-color: #4ade80; }
+  .sync-pill.busy { background: rgba(133, 77, 14, 0.85); border-color: #facc15; }
+  .sync-pill.err { background: rgba(153, 27, 27, 0.92); border-color: #fca5a5; }
+  .save-toast {
+    position: fixed; right: 22px; bottom: 22px; z-index: 120;
+    max-width: 420px; padding: 12px 15px; border-radius: 10px;
+    font-size: 0.8rem; font-weight: 600; box-shadow: 0 12px 28px rgba(15,23,42,0.24);
+    display: none; align-items: center; justify-content: space-between; gap: 10px;
+    border: 1.5px solid transparent;
+  }
+  .save-toast.show { display: flex; }
+  .save-toast.ok { background: #dcfce7; color: #14532d; border-color: #4ade80; }
+  .save-toast.busy { background: #fef9c3; color: #713f12; border-color: #facc15; }
+  .save-toast.err { background: #fee2e2; color: #7f1d1d; border-color: #f87171; }
+  .save-toast.warn { background: #f1f5f9; color: #1e293b; border-color: #94a3b8; }
+  .save-toast-retry {
+    background: #7f1d1d; color: #fff; border: none; border-radius: 6px;
+    padding: 5px 9px; font-size: 0.72rem; font-weight: 700; cursor: pointer; flex-shrink: 0;
+  }
+
 
   /* Presentation Mode */
   body.present-mode .controls,
@@ -839,12 +861,34 @@ let pushTimer = null;
 let pollIntervalId = null;
 let lastSyncHash = '';
 
+let toastHideTimer = null;
+
+function showSaveToast(kind, message, showRetry = false) {
+  const toast = document.getElementById('saveFeedbackToast');
+  const msgEl = document.getElementById('saveFeedbackMsg');
+  const retryBtn = document.getElementById('saveToastRetryBtn');
+  if (!toast || !msgEl) return;
+  toast.className = 'save-toast show ' + (kind || 'warn');
+  msgEl.textContent = message;
+  if (retryBtn) retryBtn.style.display = showRetry ? 'inline-flex' : 'none';
+  clearTimeout(toastHideTimer);
+  if (kind !== 'err') {
+    toastHideTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 4500);
+  }
+}
+
 function setSyncStatus(state, text) {
   const dot = document.getElementById('syncDot');
   const lbl = document.getElementById('syncStatusText');
+  const pill = document.getElementById('syncStatusPill');
   const btnPull = document.getElementById('btnManualPull');
   if (dot) {
     dot.className = 'sync-dot' + (state ? ' ' + state : '');
+  }
+  if (pill) {
+    pill.className = 'sync-pill' + (state ? ' ' + state : '');
   }
   if (lbl) lbl.textContent = text;
   if (btnPull) btnPull.style.display = gasWebAppUrl ? 'inline-flex' : 'none';
@@ -954,14 +998,20 @@ function saveAll(skipCloudPush = false) {
   localStorage.setItem('ptpn_programs_2027_v3', JSON.stringify(programs));
   localStorage.setItem('ptpn_uitexts_2027_v3', JSON.stringify(uiTexts));
   localStorage.setItem('ptpn_refcards_2027_v3', JSON.stringify(refCards));
-  if (!skipCloudPush && gasWebAppUrl) {
-    schedulePushToGoogleSheet();
+  if (!skipCloudPush) {
+    if (gasWebAppUrl) {
+      schedulePushToGoogleSheet();
+    } else {
+      setSyncStatus('', 'Lokal saja (belum masuk ke orang lain)');
+      showSaveToast('warn', 'Tersimpan di browser ini saja. Hubungkan Google Sheet agar terlihat orang lain.');
+    }
   }
 }
 
 function schedulePushToGoogleSheet() {
   if (!gasWebAppUrl) return;
-  setSyncStatus('busy', 'Menyimpan ke Sheet...');
+  setSyncStatus('busy', 'Menyimpan & memublikasikan...');
+  showSaveToast('busy', 'Menyimpan perubahan ke Google Sheet agar terlihat orang lain...');
   clearTimeout(pushTimer);
   pushTimer = setTimeout(() => {
     pushNowToGoogleSheet();
@@ -969,22 +1019,55 @@ function schedulePushToGoogleSheet() {
 }
 
 async function pushNowToGoogleSheet() {
-  if (!gasWebAppUrl) return;
-  setSyncStatus('busy', 'Mengirim ke Sheet...');
+  if (!gasWebAppUrl) {
+    showSaveToast('warn', 'URL Google Sheet belum terhubung.');
+    return;
+  }
+  setSyncStatus('busy', 'Memverifikasi simpanan...');
+  showSaveToast('busy', 'Mengirim dan memverifikasi simpanan ke Google Sheet...');
   try {
     const payload = buildSyncPayload();
-    lastSyncHash = JSON.stringify({ labels: payload.labels, programs: payload.programs, uiTexts: payload.uiTexts, refCards: payload.refCards, logoSrc: payload.logoSrc });
+    const expectedHash = JSON.stringify({
+      labels: payload.labels,
+      programs: payload.programs,
+      uiTexts: payload.uiTexts,
+      refCards: payload.refCards,
+      logoSrc: payload.logoSrc
+    });
     await fetch(gasWebAppUrl, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
     });
+
+    // Tunggu sebentar lalu baca balik dari Sheet untuk memastikan data benar-benar tersimpan
+    await new Promise(r => setTimeout(r, 1200));
+    const sep = gasWebAppUrl.includes('?') ? '&' : '?';
+    const checkRes = await fetch(`${gasWebAppUrl}${sep}t=${Date.now()}`, { method: 'GET' });
+    if (!checkRes.ok) throw new Error('Gagal verifikasi pembacaan Sheet (' + checkRes.status + ')');
+    const remoteData = await checkRes.json();
+    const remoteHash = JSON.stringify({
+      labels: (remoteData && remoteData.labels) || labels,
+      programs: (remoteData && remoteData.programs) || [],
+      uiTexts: (remoteData && remoteData.uiTexts) || uiTexts,
+      refCards: (remoteData && remoteData.refCards) || refCards,
+      logoSrc: (remoteData && remoteData.logoSrc) || customLogoSrc
+    });
+
     const nowStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-    setSyncStatus('ok', `Tersimpan (${nowStr})`);
+    if (remoteHash === expectedHash) {
+      lastSyncHash = expectedHash;
+      setSyncStatus('ok', `Tersimpan & bisa dilihat orang lain (${nowStr})`);
+      showSaveToast('ok', `Perubahan tersimpan di Sheet (${nowStr}) dan sudah bisa dilihat orang lain.`);
+    } else {
+      setSyncStatus('err', 'Gagal tersimpan ke tampilan orang lain');
+      showSaveToast('err', 'Gagal tersimpan ke Sheet! Perubahan hanya ada di layar Anda, belum masuk ke tampilan orang lain. Cek izin akses / kode doPost Google Apps Script.', true);
+    }
   } catch (err) {
     console.error(err);
-    setSyncStatus('err', 'Gagal kirim ke Sheet');
+    setSyncStatus('err', 'Gagal tersimpan — belum masuk ke orang lain');
+    showSaveToast('err', 'Gagal menyimpan pengeditan ke Google Sheet. Perubahan belum bisa dilihat orang lain.', true);
   }
 }
 
@@ -2007,5 +2090,9 @@ if (gasWebAppUrl) {
   setSyncStatus('', 'Mode Lokal');
 }
 </script>
+<div class="save-toast" id="saveFeedbackToast" role="status" aria-live="polite">
+  <span id="saveFeedbackMsg"></span>
+  <button type="button" class="save-toast-retry" id="saveToastRetryBtn" style="display:none;" onclick="pushNowToGoogleSheet()">Simpan Ulang</button>
+</div>
 </body>
 </html>
