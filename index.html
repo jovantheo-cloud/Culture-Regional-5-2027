@@ -859,6 +859,23 @@ function applyLogoToUI() {
   const prevImg = document.getElementById('logoModalPreview');
   if (hdrImg) hdrImg.src = srcVal;
   if (prevImg) prevImg.src = srcVal;
+
+  let favLink = document.querySelector('link[rel="icon"]');
+  if (!favLink) {
+    favLink = document.createElement('link');
+    favLink.rel = 'icon';
+    document.head.appendChild(favLink);
+  }
+  if (srcVal.startsWith('data:image/svg+xml')) {
+    favLink.type = 'image/svg+xml';
+  } else if (srcVal.startsWith('data:image/png') || srcVal.toLowerCase().includes('.png')) {
+    favLink.type = 'image/png';
+  } else if (srcVal.startsWith('data:image/jpeg') || srcVal.toLowerCase().includes('.jpg') || srcVal.toLowerCase().includes('.jpeg')) {
+    favLink.type = 'image/jpeg';
+  } else {
+    favLink.removeAttribute('type');
+  }
+  favLink.href = srcVal;
 }
 
 function openLogoModal() {
