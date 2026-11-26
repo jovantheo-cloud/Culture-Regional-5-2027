@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23475569'/%3E%3Cpath d='M42 18c-7-3-16 0-18 7-1.5 5 2.5 9 8 10 5.5 1 9 4.5 7.5 10-1.8 6.5-10.5 9.5-17.5 6.5' fill='none' stroke='%23f59e0b' stroke-width='7.5' stroke-linecap='round'/%3E%3Cpath d='M22 24c1.5-4.5 7-7 12.5-5.5M42 40c-1.5 4.5-7 7-12.5 5.5' fill='none' stroke='%23fbbf24' stroke-width='3' stroke-linecap='round' opacity='0.85'/%3E%3C/svg%3E">
 <title>2027 Live Culture & Talent Roadmap — PTPN IV Regional V (Reactive & Editable)</title>
 <style>
   :root {
@@ -62,6 +63,28 @@
     gap: 16px;
     border-bottom: 4px solid var(--gold-500);
   }
+  .brand-wrap { display: flex; align-items: center; gap: 14px; }
+  .brand-logo-box {
+    width: 50px; height: 50px; border-radius: 12px;
+    background: rgba(255,255,255,0.12); border: 1.5px solid rgba(212,154,42,0.75);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; overflow: hidden; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .brand-logo-box:hover { transform: scale(1.03); border-color: var(--gold-500); }
+  .brand-logo-box img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+  .logo-upload-bar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    background: var(--sage-100); border: 1px solid var(--sage-200);
+    padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; font-size: 0.78rem;
+  }
+  .logo-preview-thumb {
+    width: 44px; height: 44px; border-radius: 8px; background: #fff;
+    border: 1px solid var(--slate-300); display: flex; align-items: center;
+    justify-content: center; overflow: hidden; flex-shrink: 0;
+  }
+  .logo-preview-thumb img { width: 100%; height: 100%; object-fit: contain; }
+
   .brand h1 { font-size: 1.32rem; font-weight: 700; letter-spacing: 0.3px; }
   .brand p { font-size: 0.84rem; color: var(--sage-200); margin-top: 3px; }
   .header-actions { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -314,15 +337,21 @@
 <body>
 
 <header>
-  <div class="brand">
-    <h1 id="hdrTitle" class="editable-text" contenteditable="true">2027 LIVE CULTURE & TALENT ROADMAP — PTPN IV REGIONAL V</h1>
-    <p id="hdrSubtitle" class="editable-text" contenteditable="true">Operasionalisasi EntrePlanters 3ON3 (PCS • 5G • ECL • IQM) Tanpa Mengubah KPI Formal | Bagian SDM & Sistem Manajemen</p>
+  <div class="brand-wrap">
+    <div class="brand-logo-box" id="headerLogoBox" title="Klik untuk ganti / atur logo website" onclick="openLogoModal()">
+      <img id="headerLogoImg" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23475569'/%3E%3Cpath d='M42 18c-7-3-16 0-18 7-1.5 5 2.5 9 8 10 5.5 1 9 4.5 7.5 10-1.8 6.5-10.5 9.5-17.5 6.5' fill='none' stroke='%23f59e0b' stroke-width='7.5' stroke-linecap='round'/%3E%3Cpath d='M22 24c1.5-4.5 7-7 12.5-5.5M42 40c-1.5 4.5-7 7-12.5 5.5' fill='none' stroke='%23fbbf24' stroke-width='3' stroke-linecap='round' opacity='0.85'/%3E%3C/svg%3E" alt="Logo PTPN IV Regional V">
+    </div>
+    <div class="brand">
+      <h1 id="hdrTitle" class="editable-text" contenteditable="true" data-ui-key="hdrTitle">2027 LIVE CULTURE & TALENT ROADMAP — PTPN IV REGIONAL V</h1>
+      <p id="hdrSubtitle" class="editable-text" contenteditable="true" data-ui-key="hdrSubtitle">Operasionalisasi EntrePlanters 3ON3 (PCS • 5G • ECL • IQM) Tanpa Mengubah KPI Formal | Bagian SDM & Sistem Manajemen</p>
+    </div>
   </div>
   <div class="header-actions">
     <span class="sync-pill" id="syncStatusPill" title="Status sinkronisasi Google Sheets">
       <span class="sync-dot" id="syncDot"></span>
       <span id="syncStatusText">Mode Lokal</span>
     </span>
+    <button class="btn btn-light btn-edit-only" onclick="openLogoModal()">Atur Logo</button>
     <button class="btn btn-light btn-edit-only" onclick="openSyncModal()">Hubungkan Google Sheet</button>
     <button class="btn btn-light btn-edit-only" id="btnManualPull" style="display:none;" onclick="pullFromGoogleSheet(true)">Muat Ulang Sheet</button>
     <button class="btn btn-gold btn-edit-only" onclick="openProgramModal()">+ Tambah Inisiatif</button>
@@ -430,6 +459,39 @@
     <div class="ref-grid" id="refGrid"></div>
   </section>
 </main>
+
+<!-- Modal Pengaturan Logo Website -->
+<div class="modal-backdrop" id="logoModal">
+  <div class="modal" style="max-width:540px;">
+    <div class="modal-header">
+      <h3>Pengaturan Logo Website</h3>
+      <button class="btn btn-outline" onclick="closeModal('logoModal')">Tutup</button>
+    </div>
+    <div class="logo-upload-bar">
+      <div class="logo-preview-thumb">
+        <img id="logoModalPreview" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23475569'/%3E%3Cpath d='M42 18c-7-3-16 0-18 7-1.5 5 2.5 9 8 10 5.5 1 9 4.5 7.5 10-1.8 6.5-10.5 9.5-17.5 6.5' fill='none' stroke='%23f59e0b' stroke-width='7.5' stroke-linecap='round'/%3E%3Cpath d='M22 24c1.5-4.5 7-7 12.5-5.5M42 40c-1.5 4.5-7 7-12.5 5.5' fill='none' stroke='%23fbbf24' stroke-width='3' stroke-linecap='round' opacity='0.85'/%3E%3C/svg%3E" alt="Preview Logo">
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <div style="font-weight:700;color:var(--forest-900);margin-bottom:4px;">Unggah File Logo dari Perangkat (PNG, JPG, SVG)</div>
+        <input type="file" id="logoFileInput" accept="image/*" onchange="handleLogoFileUpload(event)" style="font-size:0.75rem;max-width:100%;">
+      </div>
+    </div>
+    <div style="margin-bottom:12px;">
+      <label style="font-size:0.74rem;font-weight:700;color:var(--slate-600);display:block;margin-bottom:4px;">ATAU TEMPEL URL / PATH LOGO (MISAL: <code>/logo-ptpn4.png</code> ATAU LINK GAMBAR)</label>
+      <input type="text" id="logoUrlInput" placeholder="https://... atau /logo.png" style="width:100%;" oninput="previewLogoUrlInput()">
+    </div>
+    <p style="font-size:0.74rem;color:var(--slate-600);margin-bottom:14px;">
+      Tips: Jika Anda mengunggah file gambar dari komputer, logo akan tersimpan di browser dan ikut tersinkronisasi ke Google Sheet. Jika ingin logo tampil permanen untuk semua pengunjung baru di Vercel meski tanpa cache, upload file logo ke folder repository GitHub lalu isi URL/path-nya di atas.
+    </p>
+    <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+      <button type="button" class="btn btn-danger" onclick="resetLogoToDefault()">Pakai Logo Bawaan</button>
+      <div style="display:flex;gap:8px;">
+        <button type="button" class="btn btn-outline" onclick="closeModal('logoModal')">Batal</button>
+        <button type="button" class="btn btn-forest" onclick="saveLogoSettings()">Simpan Logo</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal Google Sheets Sync -->
 <div class="modal-backdrop" id="syncModal">
@@ -788,12 +850,83 @@ function setSyncStatus(state, text) {
   if (btnPull) btnPull.style.display = gasWebAppUrl ? 'inline-flex' : 'none';
 }
 
+const DEFAULT_LOGO_SRC = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23475569'/%3E%3Cpath d='M42 18c-7-3-16 0-18 7-1.5 5 2.5 9 8 10 5.5 1 9 4.5 7.5 10-1.8 6.5-10.5 9.5-17.5 6.5' fill='none' stroke='%23f59e0b' stroke-width='7.5' stroke-linecap='round'/%3E%3Cpath d='M22 24c1.5-4.5 7-7 12.5-5.5M42 40c-1.5 4.5-7 7-12.5 5.5' fill='none' stroke='%23fbbf24' stroke-width='3' stroke-linecap='round' opacity='0.85'/%3E%3C/svg%3E";
+let customLogoSrc = localStorage.getItem('ptpn_logo_src_v1') || DEFAULT_LOGO_SRC;
+
+function applyLogoToUI() {
+  const srcVal = customLogoSrc || DEFAULT_LOGO_SRC;
+  const hdrImg = document.getElementById('headerLogoImg');
+  const prevImg = document.getElementById('logoModalPreview');
+  if (hdrImg) hdrImg.src = srcVal;
+  if (prevImg) prevImg.src = srcVal;
+}
+
+function openLogoModal() {
+  const inp = document.getElementById('logoUrlInput');
+  if (inp) {
+    inp.value = (customLogoSrc && !customLogoSrc.startsWith('data:image/svg+xml;utf8,')) ? customLogoSrc : '';
+  }
+  applyLogoToUI();
+  document.getElementById('logoModal').classList.add('open');
+}
+
+function previewLogoUrlInput() {
+  const val = document.getElementById('logoUrlInput').value.trim();
+  const prevImg = document.getElementById('logoModalPreview');
+  if (prevImg) prevImg.src = val || customLogoSrc || DEFAULT_LOGO_SRC;
+}
+
+function handleLogoFileUpload(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  if (file.size > 1200000) {
+    alert('Ukuran file logo terlalu besar (maksimal ~1.2 MB agar sinkronisasi Google Sheet lancar).');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    customLogoSrc = dataUrl;
+    const prevImg = document.getElementById('logoModalPreview');
+    const urlInp = document.getElementById('logoUrlInput');
+    if (prevImg) prevImg.src = dataUrl;
+    if (urlInp) urlInp.value = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveLogoSettings() {
+  const urlVal = document.getElementById('logoUrlInput').value.trim();
+  if (urlVal) {
+    customLogoSrc = urlVal;
+  } else if (!customLogoSrc) {
+    customLogoSrc = DEFAULT_LOGO_SRC;
+  }
+  localStorage.setItem('ptpn_logo_src_v1', customLogoSrc);
+  applyLogoToUI();
+  saveAll();
+  closeModal('logoModal');
+}
+
+function resetLogoToDefault() {
+  customLogoSrc = DEFAULT_LOGO_SRC;
+  localStorage.removeItem('ptpn_logo_src_v1');
+  const urlInp = document.getElementById('logoUrlInput');
+  const fileInp = document.getElementById('logoFileInput');
+  if (urlInp) urlInp.value = '';
+  if (fileInp) fileInp.value = '';
+  applyLogoToUI();
+  saveAll();
+  closeModal('logoModal');
+}
+
 function buildSyncPayload() {
   return {
     labels,
     programs,
     uiTexts,
     refCards,
+    logoSrc: customLogoSrc,
     updatedAt: new Date().toISOString()
   };
 }
@@ -823,7 +956,7 @@ async function pushNowToGoogleSheet() {
   setSyncStatus('busy', 'Mengirim ke Sheet...');
   try {
     const payload = buildSyncPayload();
-    lastSyncHash = JSON.stringify({ labels: payload.labels, programs: payload.programs, uiTexts: payload.uiTexts, refCards: payload.refCards });
+    lastSyncHash = JSON.stringify({ labels: payload.labels, programs: payload.programs, uiTexts: payload.uiTexts, refCards: payload.refCards, logoSrc: payload.logoSrc });
     await fetch(gasWebAppUrl, {
       method: 'POST',
       mode: 'no-cors',
@@ -863,7 +996,8 @@ async function pullFromGoogleSheet(forceRender = false) {
         labels: data.labels || labels,
         programs: data.programs,
         uiTexts: data.uiTexts || uiTexts,
-        refCards: data.refCards || refCards
+        refCards: data.refCards || refCards,
+        logoSrc: data.logoSrc || customLogoSrc
       });
       if (incomingHash !== lastSyncHash || forceRender) {
         lastSyncHash = incomingHash;
@@ -878,6 +1012,11 @@ async function pullFromGoogleSheet(forceRender = false) {
         }
         if (Array.isArray(data.refCards) && data.refCards.length) {
           refCards = data.refCards;
+        }
+        if (data.logoSrc && typeof data.logoSrc === 'string') {
+          customLogoSrc = data.logoSrc;
+          localStorage.setItem('ptpn_logo_src_v1', customLogoSrc);
+          applyLogoToUI();
         }
         saveAll(true);
         populateLabelSelects();
@@ -1012,9 +1151,9 @@ function bindInlineEdits() {
     };
     el.oninput = () => {
       const k = el.getAttribute('data-ui-key');
+      uiTexts[k] = el.textContent;
+      localStorage.setItem('ptpn_uitexts_2027_v3', JSON.stringify(uiTexts));
       if (k && k.startsWith('qHead_')) {
-        uiTexts[k] = el.textContent;
-        saveAll();
         populateQuarterFilter();
       }
     };
@@ -1841,6 +1980,7 @@ function exportCSV() {
   a.click();
 }
 
+applyLogoToUI();
 populateLabelSelects();
 render();
 if (gasWebAppUrl) {
