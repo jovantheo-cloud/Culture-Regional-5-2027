@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2027 Live Culture & Talent Roadmap — PTPN IV Regional V (Reactive & Editable)</title>
+<style>
+  :root {
+    --forest-900: #163018;
+    --forest-800: #1f4422;
+    --forest-700: #2e5d31;
+    --forest-600: #3c6939;
+    --sage-200: #d6e8ce;
+    --sage-100: #eef5ea;
+    --cream-50: #fafaf5;
+    --gold-500: #d49a2a;
+    --gold-100: #fcf3de;
+    --blue-600: #2563eb;
+    --blue-100: #dbeafe;
+    --slate-800: #1e293b;
+    --slate-600: #475569;
+    --slate-300: #cbd5e1;
+    --slate-100: #f1f5f9;
+    --red-600: #dc2626;
+    --red-100: #fee2e2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  body { background: var(--cream-50); color: var(--slate-800); line-height: 1.45; }
+
+  /* Editable visual indicator */
+  body:not(.present-mode) .editable-text {
+    outline: 1px dashed transparent;
+    border-radius: 4px;
+    transition: outline-color 0.15s, background-color 0.15s;
+    cursor: text;
+  }
+  body:not(.present-mode) .editable-text:hover {
+    outline-color: rgba(212, 154, 42, 0.75);
+    background-color: rgba(252, 243, 222, 0.32);
+  }
+  body:not(.present-mode) .editable-text:focus {
+    outline: 2px solid var(--gold-500);
+    background-color: #fff;
+    color: var(--slate-800);
+    padding: 1px 4px;
+  }
+  header .editable-text:focus,
+  .kpi-card .editable-text:focus,
+  th .editable-text:focus {
+    color: var(--forest-900);
+  }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, var(--forest-900) 0%, var(--forest-700) 100%);
+    color: #fff;
+    padding: 20px 28px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 4px solid var(--gold-500);
+  }
+  .brand h1 { font-size: 1.32rem; font-weight: 700; letter-spacing: 0.3px; }
+  .brand p { font-size: 0.84rem; color: var(--sage-200); margin-top: 3px; }
+  .header-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn {
+    border: none; border-radius: 6px; padding: 8px 13px; font-size: 0.8rem; font-weight: 600;
+    cursor: pointer; transition: all 0.18s ease; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-gold { background: var(--gold-500); color: #1a1a1a; }
+  .btn-gold:hover { background: #e3aa38; }
+  .btn-light { background: rgba(255,255,255,0.14); color: #fff; border: 1px solid rgba(255,255,255,0.28); }
+  .btn-light:hover { background: rgba(255,255,255,0.24); }
+  .btn-forest { background: var(--forest-700); color: #fff; }
+  .btn-forest:hover { background: var(--forest-800); }
+  .btn-outline { background: #fff; color: var(--slate-800); border: 1px solid var(--slate-300); }
+  .btn-outline:hover { background: var(--slate-100); }
+  .btn-danger { background: var(--red-100); color: var(--red-600); border: 1px solid #fecaca; }
+
+  /* KPI Strip */
+  .kpi-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px; padding: 16px 28px; background: #fff; border-bottom: 1px solid #e2e8f0;
+  }
+  .kpi-card {
+    background: var(--sage-100); border-left: 4px solid var(--forest-600);
+    padding: 11px 14px; border-radius: 6px;
+  }
+  .kpi-card.gold { background: var(--gold-100); border-left-color: var(--gold-500); }
+  .kpi-card.blue { background: var(--blue-100); border-left-color: var(--blue-600); }
+  .kpi-label { font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: var(--slate-600); }
+  .kpi-val { font-size: 1.45rem; font-weight: 800; color: var(--forest-900); margin-top: 2px; }
+  .kpi-val span.denom { font-size: 0.85rem; font-weight: 600; color: var(--slate-600); }
+  .kpi-sub { font-size: 0.74rem; color: var(--slate-600); margin-top: 3px; }
+  .kpi-q-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .q-pill {
+    font-size: 0.67rem; font-weight: 700; padding: 2px 6px; border-radius: 4px;
+    background: rgba(255,255,255,0.78); color: var(--forest-900); border: 1px solid rgba(60,105,57,0.22);
+  }
+
+  /* Filter Panel */
+  .controls {
+    padding: 14px 28px; background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+    display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end;
+  }
+  .control-group { display: flex; flex-direction: column; gap: 4px; min-width: 175px; }
+  .ket-filter-box { min-width: 260px; }
+  .ket-manage-row { display: flex; gap: 5px; margin-top: 4px; }
+  .ket-manage-row input { flex: 1; padding: 5px 8px; font-size: 0.76rem; min-width: 110px; }
+  .btn-mini { padding: 5px 8px; font-size: 0.72rem; border-radius: 5px; }
+  .inline-ket-select {
+    background: var(--gold-100) !important; color: #854d0e !important;
+    border: 1px solid #facc15 !important; font-size: 0.7rem !important;
+    padding: 2px 6px !important; border-radius: 999px !important; font-weight: 700 !important;
+    cursor: pointer;
+  }
+  .chk-dd { position: relative; display: inline-block; }
+  .chk-dd-btn {
+    width: 100%; text-align: left; background: #fff; border: 1px solid var(--slate-300);
+    border-radius: 6px; padding: 7px 10px; font-size: 0.8rem; font-weight: 600;
+    color: var(--slate-800); cursor: pointer; display: flex; justify-content: space-between;
+    align-items: center; gap: 8px;
+  }
+  .chk-dd-btn:hover { border-color: var(--forest-600); }
+  .chk-dd-panel {
+    display: none; position: fixed; z-index: 80; background: #fff;
+    border: 1px solid var(--slate-300); border-radius: 8px; padding: 8px;
+    min-width: 215px; box-shadow: 0 10px 24px rgba(15,23,42,0.16);
+  }
+  .chk-dd-panel.open { display: block; }
+  .chk-dd-item {
+    display: flex; align-items: center; gap: 7px; padding: 4px 6px; border-radius: 5px;
+    font-size: 0.78rem; cursor: pointer; color: var(--slate-800); user-select: none;
+  }
+  .chk-dd-item:hover { background: var(--sage-100); }
+  .chk-dd-item input[type="checkbox"] { cursor: pointer; accent-color: var(--forest-700); }
+  .chk-dd-foot {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid #e2e8f0; margin-top: 6px; padding-top: 6px; font-size: 0.7rem;
+  }
+  .inline-3on3-wrap { display: inline-flex; flex-wrap: wrap; gap: 3px; align-items: center; vertical-align: middle; }
+  .inline-3on3-tag {
+    background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1;
+    font-size: 0.68rem; padding: 1px 6px; border-radius: 999px; font-weight: 700;
+  }
+  .inline-3on3-trigger {
+    background: #fff; color: var(--forest-800); border: 1px solid var(--slate-300);
+    font-size: 0.68rem; padding: 1px 6px; border-radius: 999px; font-weight: 700; cursor: pointer;
+  }
+  .inline-3on3-trigger:hover { background: var(--sage-100); border-color: var(--forest-600); }
+  .add-prog-bar {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    background: #fff; border: 1px dashed var(--forest-600); border-radius: 8px;
+    padding: 10px 14px; margin-bottom: 12px;
+  }
+  .add-prog-bar input, .add-prog-bar select {
+    padding: 6px 9px; font-size: 0.78rem; border-radius: 6px;
+  }
+  .add-prog-bar input.prog-quick-name { flex: 1; min-width: 220px; }
+  .timeline-add-row td {
+    background: #f8fbf7 !important; padding: 9px 10px !important;
+  }
+  .control-group label { font-size: 0.73rem; font-weight: 700; color: var(--slate-600); text-transform: uppercase; }
+  select, input[type="text"], textarea {
+    padding: 7px 10px; border: 1px solid var(--slate-300); border-radius: 6px;
+    font-size: 0.83rem; background: #fff; color: var(--slate-800);
+  }
+  .view-tabs { margin-left: auto; display: flex; gap: 6px; }
+  .tab-btn {
+    padding: 8px 14px; border-radius: 6px; border: 1px solid var(--slate-300);
+    background: #fff; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+  }
+  .tab-btn.active { background: var(--forest-800); color: #fff; border-color: var(--forest-800); }
+
+  /* Main Container */
+  main { padding: 18px 28px 40px; }
+  .top-toolbar {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+    gap: 10px; margin-bottom: 12px;
+  }
+  .hint-bar { font-size: 0.78rem; color: var(--slate-600); }
+  .edit-mode-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--gold-100); color: #78350f; border: 1px solid #fde68a;
+    padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700;
+  }
+
+  /* Gantt Matrix View */
+  .gantt-wrapper {
+    background: #fff; border: 1px solid var(--slate-300); border-radius: 8px;
+    overflow-x: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  table.gantt { width: 100%; border-collapse: collapse; min-width: 1520px; font-size: 0.8rem; }
+  table.gantt th, table.gantt td { border: 1px solid #e2e8f0; padding: 8px 10px; vertical-align: top; }
+  table.gantt thead th {
+    background: var(--forest-800); color: #fff; font-weight: 700; text-align: center;
+    position: sticky; top: 0; z-index: 2;
+  }
+  table.gantt thead th.q-head { background: var(--forest-900); font-size: 0.74rem; letter-spacing: 0.5px; }
+  .sticky-col {
+    position: sticky; left: 0; background: #fff; z-index: 1;
+    min-width: 335px; max-width: 355px; border-right: 2px solid var(--slate-300) !important;
+  }
+  thead .sticky-col { background: var(--forest-900) !important; z-index: 3; text-align: left !important; }
+  tr:nth-child(even) .sticky-col { background: #fcfdfb; }
+  .prog-title { font-weight: 700; color: var(--forest-900); font-size: 0.85rem; margin: 5px 0; }
+  .prog-meta-line { font-size: 0.72rem; color: #475569; margin-top: 3px; }
+  .prog-actions-mini { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 6px; }
+  .mini-link {
+    background: none; border: none; color: var(--forest-700); font-size: 0.71rem;
+    font-weight: 700; cursor: pointer; text-decoration: underline; padding: 0;
+  }
+  .inline-seg-select {
+    font-size: 0.7rem !important; padding: 2px 6px !important; border-radius: 999px !important;
+    font-weight: 700 !important; cursor: pointer;
+  }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; align-items: center; }
+  .badge {
+    display: inline-block; padding: 2px 7px; border-radius: 999px; font-size: 0.69rem; font-weight: 700;
+  }
+  .b-ket { background: var(--gold-100); color: #854d0e; border: 1px solid #fde047; }
+  .b-seg-lap { background: var(--sage-200); color: var(--forest-900); }
+  .b-seg-pim { background: #fef3c7; color: #92400e; }
+  .b-seg-tal { background: var(--blue-100); color: #1e40af; }
+  .b-3on3 { background: #f1f5f9; color: #334155; }
+
+  .month-cell {
+    min-width: 96px; transition: background 0.15s; position: relative;
+  }
+  .month-cell:hover { background: #f8fafc; }
+  .month-active {
+    background: var(--sage-100); border-radius: 5px; padding: 5px 6px;
+    border-left: 3px solid var(--forest-600);
+  }
+  .month-active.pim { background: var(--gold-100); border-left-color: var(--gold-500); }
+  .month-active.tal { background: var(--blue-100); border-left-color: var(--blue-600); }
+  .m-week { font-size: 0.68rem; font-weight: 800; color: var(--forest-800); }
+  .m-note { font-size: 0.72rem; color: var(--slate-800); margin-top: 2px; min-height: 18px; }
+  .month-empty-btn {
+    width: 100%; min-height: 36px; border: 1px dashed #cbd5e1; background: transparent;
+    color: #94a3b8; border-radius: 5px; font-size: 0.72rem; cursor: pointer;
+  }
+  .month-empty-btn:hover { border-color: var(--forest-600); color: var(--forest-700); background: var(--sage-100); }
+  .cell-toggle-btn {
+    margin-top: 4px; border: none; background: transparent; color: #64748b;
+    font-size: 0.66rem; text-decoration: underline; cursor: pointer; padding: 0;
+  }
+
+  /* Card Grid View */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(335px, 1fr)); gap: 16px; }
+  .card {
+    background: #fff; border: 1px solid var(--slate-300); border-radius: 8px; padding: 15px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  }
+  .card h3 { font-size: 0.96rem; color: var(--forest-900); margin: 6px 0; }
+  .card-meta { font-size: 0.78rem; color: var(--slate-600); margin-bottom: 8px; }
+  .card-box { background: #f8fafc; padding: 8px 10px; border-radius: 6px; font-size: 0.78rem; margin-top: 6px; }
+  .card-actions { display: flex; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1px solid #f1f5f9; }
+
+  /* 3ON3 Reference Strip */
+  .ref-strip {
+    margin-top: 22px; background: #fff; border: 1px solid var(--slate-300); border-radius: 8px; padding: 16px;
+  }
+  .ref-header-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+  .ref-strip h2 { font-size: 0.95rem; color: var(--forest-900); }
+  .ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 10px; }
+  .ref-item { background: var(--sage-100); padding: 10px 12px; border-radius: 6px; font-size: 0.78rem; }
+  .ref-item strong { color: var(--forest-900); display: block; margin-bottom: 4px; }
+  .ref-item div { color: var(--slate-800); }
+
+  /* Modal */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(15,23,42,0.55); display: none;
+    align-items: center; justify-content: center; z-index: 50; padding: 16px;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: #fff; border-radius: 10px; max-width: 680px; width: 100%; max-height: 90vh;
+    overflow-y: auto; padding: 22px; box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+  }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 14px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-full { grid-column: 1 / -1; }
+  .month-editor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 6px; }
+  .me-box { border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px; background: #f8fafc; }
+  .me-box label { font-size: 0.73rem; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+  .me-box input[type="text"] { width: 100%; margin-top: 4px; font-size: 0.74rem; padding: 4px 6px; }
+
+  .sync-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 999px; font-size: 0.74rem; font-weight: 700;
+    background: rgba(255,255,255,0.16); color: #fff; border: 1px solid rgba(255,255,255,0.28);
+  }
+  .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; }
+  .sync-dot.ok { background: #4ade80; }
+  .sync-dot.busy { background: #facc15; }
+  .sync-dot.err { background: #f87171; }
+  body.present-mode .sync-pill { display: none !important; }
+
+  /* Presentation Mode */
+  body.present-mode .controls,
+  body.present-mode .btn-edit-only,
+  body.present-mode .top-toolbar,
+  body.present-mode .prog-actions-mini,
+  body.present-mode .inline-seg-select,
+  body.present-mode .cell-toggle-btn,
+  body.present-mode .month-empty-btn { display: none !important; }
+  body.present-mode header { padding: 14px 28px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1 id="hdrTitle" class="editable-text" contenteditable="true">2027 LIVE CULTURE & TALENT ROADMAP — PTPN IV REGIONAL V</h1>
+    <p id="hdrSubtitle" class="editable-text" contenteditable="true">Operasionalisasi EntrePlanters 3ON3 (PCS • 5G • ECL • IQM) Tanpa Mengubah KPI Formal | Bagian SDM & Sistem Manajemen</p>
+  </div>
+  <div class="header-actions">
+    <span class="sync-pill" id="syncStatusPill" title="Status sinkronisasi Google Sheets">
+      <span class="sync-dot" id="syncDot"></span>
+      <span id="syncStatusText">Mode Lokal</span>
+    </span>
+    <button class="btn btn-light btn-edit-only" onclick="openSyncModal()">Hubungkan Google Sheet</button>
+    <button class="btn btn-light btn-edit-only" id="btnManualPull" style="display:none;" onclick="pullFromGoogleSheet(true)">Muat Ulang Sheet</button>
+    <button class="btn btn-gold btn-edit-only" onclick="openProgramModal()">+ Tambah Inisiatif</button>
+    <button class="btn btn-light btn-edit-only" onclick="openLabelsModal()">Atur Label Kolom Kiri</button>
+    <button class="btn btn-light" onclick="exportCSV()">Ekspor CSV</button>
+    <button class="btn btn-light btn-edit-only" onclick="resetAllTextsAndData()">Reset Semua Teks</button>
+    <button class="btn btn-light" onclick="togglePresentMode()" id="btnPresent">Mode Presentasi</button>
+  </div>
+</header>
+
+<section class="kpi-grid" id="kpiGrid"></section>
+
+<section class="controls">
+  <div class="control-group">
+    <label id="lblFilterQ" class="editable-text" contenteditable="true">Kuartal (2027)</label>
+    <select id="filterQuarter" onchange="render()">
+      <option value="ALL">Semua Kuartal (Q1–Q4)</option>
+      <option value="Q1">Q1 — Fondasi & Pilot</option>
+      <option value="Q2">Q2 — Gebrakan 100 Hari</option>
+      <option value="Q3">Q3 — Benchmarking & Replikasi</option>
+      <option value="Q4">Q4 — Konsolidasi & Suksesi 2028</option>
+    </select>
+  </div>
+  <div class="control-group">
+    <label id="lblFilterSeg" class="editable-text" contenteditable="true">Segmen Sasaran</label>
+    <select id="filterSegment" onchange="render()"></select>
+  </div>
+  <div class="control-group ket-filter-box">
+    <label id="lblFilterKet" class="editable-text" contenteditable="true">Keterangan Pelaksanaan (Kolom Kiri)</label>
+    <select id="filterKeterangan" onchange="onFilterKeteranganChange()"></select>
+    <div class="ket-manage-row btn-edit-only">
+      <input type="text" id="ketEditInput" placeholder="Edit / tambah label..." oninput="liveSyncSelectedKetLabel()">
+      <button type="button" class="btn btn-forest btn-mini" onclick="addKetLabelFromFilter()">+ Tambah</button>
+      <button type="button" class="btn btn-danger btn-mini" onclick="deleteSelectedKetLabel()">Hapus</button>
+    </div>
+  </div>
+  <div class="control-group" style="min-width:235px;">
+    <label id="lblFilter3on3" class="editable-text" contenteditable="true">Elemen EntrePlanters 3ON3</label>
+    <div class="chk-dd" style="width:100%;">
+      <button type="button" class="chk-dd-btn" onclick="open3on3Popover(event, 'filter')">
+        <span id="filter3on3BtnLabel">Semua (6 Elemen)</span>
+        <span>▾</span>
+      </button>
+    </div>
+  </div>
+  <div class="chk-dd-panel" id="shared3on3Popover"></div>
+  <div class="view-tabs">
+    <button class="tab-btn active" id="tabGantt" onclick="setView('gantt')">Matriks Bulanan (Jan–Des)</button>
+    <button class="tab-btn" id="tabCards" onclick="setView('cards')">Kartu Detail Program</button>
+  </div>
+</section>
+
+<main>
+  <div class="top-toolbar">
+    <div id="hintText" class="hint-bar editable-text" contenteditable="true">
+      Semua angka & ringkasan kuartal/segmen otomatis terhitung saat Anda mengedit program, mengklik "+ Aktifkan / Nonaktifkan" bulan, mengganti segmen/kuartal, atau menambah/menghapus program. Klik teks mana pun untuk mengeditnya langsung.
+    </div>
+    <span class="edit-mode-pill btn-edit-only">Auto-Calculate + Inline Edit Aktif</span>
+  </div>
+
+  <div class="add-prog-bar btn-edit-only" id="quickAddProgBar">
+    <strong style="font-size:0.78rem;color:var(--forest-900);">+ Tambah Program di Timeline:</strong>
+    <input type="text" id="quickProgName" class="prog-quick-name" placeholder="Nama program / inisiatif baru...">
+    <select id="quickProgKet"></select>
+    <select id="quickProgSeg">
+      <option value="Lapangan">Pelaksana / Pemanen</option>
+      <option value="Pimpinan">Pimpinan Senior</option>
+      <option value="Talenta">Talenta / Change Agent</option>
+    </select>
+    <select id="quickProgQ">
+      <option value="Q1">Q1</option>
+      <option value="Q2">Q2</option>
+      <option value="Q3">Q3</option>
+      <option value="Q4">Q4</option>
+    </select>
+    <div class="chk-dd" style="min-width:185px;">
+      <button type="button" class="chk-dd-btn" style="padding:6px 9px;font-size:0.78rem;" onclick="open3on3Popover(event, 'quick')">
+        <span id="quick3on3BtnLabel">3ON3: Excellence</span>
+        <span>▾</span>
+      </button>
+    </div>
+    <select id="quickProgMonth">
+      <option value="0">Mulai Jan</option>
+      <option value="1">Mulai Feb</option>
+      <option value="2">Mulai Mar</option>
+      <option value="3">Mulai Apr</option>
+      <option value="4">Mulai Mei</option>
+      <option value="5">Mulai Jun</option>
+      <option value="6">Mulai Jul</option>
+      <option value="7">Mulai Agu</option>
+      <option value="8">Mulai Sep</option>
+      <option value="9">Mulai Okt</option>
+      <option value="10">Mulai Nov</option>
+      <option value="11">Mulai Des</option>
+    </select>
+    <button type="button" class="btn btn-gold" onclick="quickAddProgramToTimeline()">+ Tambahkan</button>
+  </div>
+  <div id="contentArea"></div>
+
+  <section class="ref-strip">
+    <div class="ref-header-row">
+      <h2 id="refTitle" class="editable-text" contenteditable="true">Terjemahan Praktis EntrePlanters 3ON3 di PTPN IV Regional V (Menjawab Isu Strategis CEO)</h2>
+      <button class="btn btn-outline btn-edit-only" onclick="addRefCard()">+ Tambah Kartu Catatan</button>
+    </div>
+    <div class="ref-grid" id="refGrid"></div>
+  </section>
+</main>
+
+<!-- Modal Google Sheets Sync -->
+<div class="modal-backdrop" id="syncModal">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-header">
+      <h3>Sinkronisasi Kolaboratif via Google Sheets</h3>
+      <button class="btn btn-outline" onclick="closeModal('syncModal')">Tutup</button>
+    </div>
+    <p style="font-size:0.8rem; color:var(--slate-600); margin-bottom:10px;">
+      URL Web App Google Apps Script sudah terpasang secara bawaan agar seluruh anggota tim langsung tersinkronisasi ke Google Sheet yang sama.
+    </p>
+    <div style="margin-bottom:10px;">
+      <label style="font-size:0.74rem;font-weight:700;color:var(--slate-600);display:block;margin-bottom:4px;">URL WEB APP APPS SCRIPT</label>
+      <input type="text" id="gasUrlInput" placeholder="https://script.google.com/macros/s/...../exec" style="width:100%;">
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:0.8rem;">
+      <input type="checkbox" id="gasAutoPollChk" checked>
+      <label for="gasAutoPollChk">Auto-refresh perubahan rekan tim setiap 15 detik (saat tidak sedang mengetik)</label>
+    </div>
+    <div style="background:var(--sage-100);padding:10px 12px;border-radius:6px;font-size:0.76rem;color:var(--forest-900);margin-bottom:14px;">
+      <strong>Info Multi-User:</strong> URL Web App sudah tertanam di <code>DEFAULT_GAS_WEBAPP_URL</code> pada file <code>index.html</code> ini sehingga langsung aktif saat di-deploy ke Vercel.
+    </div>
+    <div style="display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+      <button type="button" class="btn btn-danger" onclick="disconnectGoogleSheet()">Putuskan Koneksi</button>
+      <div style="display:flex; gap:8px;">
+        <button type="button" class="btn btn-outline" onclick="pushNowToGoogleSheet()">Kirim Data Lokal ke Sheet</button>
+        <button type="button" class="btn btn-forest" onclick="saveSyncSettings()">Simpan & Hubungkan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Detail / Edit Program -->
+<div class="modal-backdrop" id="programModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Detail & Editor Inisiatif</h3>
+      <button class="btn btn-outline" onclick="closeModal('programModal')">Tutup</button>
+    </div>
+    <form id="programForm" onsubmit="saveProgram(event)">
+      <input type="hidden" id="progId">
+      <div class="form-grid">
+        <div class="form-full">
+          <label>Nama Program / Inisiatif</label>
+          <input type="text" id="progName" required style="width:100%">
+        </div>
+        <div>
+          <label>Keterangan Pelaksanaan (Kolom Paling Kiri)</label>
+          <select id="progKet" style="width:100%"></select>
+        </div>
+        <div>
+          <label>Segmen Target</label>
+          <select id="progSeg" style="width:100%">
+            <option value="Lapangan">Karyawan Pelaksana / Pemanen</option>
+            <option value="Pimpinan">Karyawan Pimpinan Senior</option>
+            <option value="Talenta">Talenta Muda / Change Agent</option>
+          </select>
+        </div>
+        <div>
+          <label>Kuartal Utama</label>
+          <select id="progQuarter" style="width:100%">
+            <option value="Q1">Q1</option>
+            <option value="Q2">Q2</option>
+            <option value="Q3">Q3</option>
+            <option value="Q4">Q4</option>
+          </select>
+        </div>
+        <div>
+          <label>Elemen EntrePlanters 3ON3 (Checklist)</label>
+          <div id="prog3on3Checks" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px;background:#f8fafc;padding:7px;border:1px solid #cbd5e1;border-radius:6px;"></div>
+        </div>
+        <div class="form-full">
+          <label>Mekanisme Lapangan (Tanpa Ubah KPI Formal)</label>
+          <textarea id="progMech" rows="2" style="width:100%"></textarea>
+        </div>
+        <div>
+          <label>Kendaraan KPI Eksisting</label>
+          <input type="text" id="progKpi" style="width:100%">
+        </div>
+        <div>
+          <label>Bukti Dampak (Before–After)</label>
+          <input type="text" id="progImpact" style="width:100%">
+        </div>
+        <div class="form-full">
+          <label>Jadwal & Fokus Aktivitas Per Bulan (Centang bulan aktif & isi rincian M1–M4)</label>
+          <div class="month-editor-grid" id="monthEditorGrid"></div>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-between; margin-top:16px;">
+        <button type="button" class="btn btn-danger" id="btnDeleteProg" onclick="deleteProgram()">Hapus Program</button>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-outline" onclick="closeModal('programModal')">Batal</button>
+          <button type="submit" class="btn btn-forest">Simpan Perubahan</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Manage Left-Column Labels -->
+<div class="modal-backdrop" id="labelsModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <h3>Sesuaikan Label Kolom Keterangan Paling Kiri</h3>
+      <button class="btn btn-outline" onclick="closeModal('labelsModal')">Tutup</button>
+    </div>
+    <p style="font-size:0.8rem; color:var(--slate-600); margin-bottom:10px;">
+      Masukkan daftar kategori keterangan pelaksanaan sesuai kolom paling kiri di spreadsheet Anda (satu kategori per baris):
+    </p>
+    <textarea id="labelsTextarea" rows="6" style="width:100%;"></textarea>
+    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
+      <button class="btn btn-outline" onclick="closeModal('labelsModal')">Batal</button>
+      <button class="btn btn-forest" onclick="saveLabels()">Simpan Label</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const QUARTERS_META = [
+  { key: 'Q1', label: 'Q1 — FONDASI & PILOT', months: [0,1,2] },
+  { key: 'Q2', label: 'Q2 — GEBRAKAN 100 HARI', months: [3,4,5] },
+  { key: 'Q3', label: 'Q3 — BENCHMARKING & REPLIKASI', months: [6,7,8] },
+  { key: 'Q4', label: 'Q4 — KONSOLIDASI & SUKSESI 2028', months: [9,10,11] }
+];
+
+const DEFAULT_LABELS = [
+  'Flagship Gebrakan 2027',
+  'Mandiri Unit (Kebun/PKS)',
+  'Pendampingan Regional',
+  'Integrasi Program Wajib Holding'
+];
+
+const DEFAULT_3ON3_ELEMENTS = [
+  '5G Initiatives',
+  'ECL',
+  'IQM',
+  'Owner Mindset',
+  'Networking',
+  'Excellence'
+];
+
+function normalize3on3Array(val) {
+  const rawList = Array.isArray(val) ? val : String(val || '').split(',');
+  const found = new Set();
+  rawList.forEach(item => {
+    const low = String(item || '').toLowerCase().trim();
+    if (!low) return;
+    if (low.includes('5g')) found.add('5G Initiatives');
+    if (low.includes('ecl') || low.includes('leader')) found.add('ECL');
+    if (low.includes('iqm') || low.includes('risk')) found.add('IQM');
+    if (low.includes('owner') || low.includes('pcs')) found.add('Owner Mindset');
+    if (low.includes('network')) found.add('Networking');
+    if (low.includes('excel') || low.includes('3on3')) found.add('Excellence');
+  });
+  const ordered = DEFAULT_3ON3_ELEMENTS.filter(opt => found.has(opt));
+  return ordered.length ? ordered : ['Excellence'];
+}
+
+const DEFAULT_UI_TEXTS = {
+  hdrTitle: '2027 LIVE CULTURE & TALENT ROADMAP — PTPN IV REGIONAL V',
+  hdrSubtitle: 'Operasionalisasi EntrePlanters 3ON3 (PCS • 5G • ECL • IQM) Tanpa Mengubah KPI Formal | Bagian SDM & Sistem Manajemen',
+  lblFilterQ: 'Kuartal (2027)',
+  lblFilterSeg: 'Segmen Sasaran',
+  lblFilterKet: 'Keterangan Pelaksanaan (Kolom Kiri)',
+  lblFilter3on3: 'Elemen EntrePlanters 3ON3',
+  hintText: 'Semua angka & ringkasan kuartal/segmen otomatis terhitung saat Anda mengedit program, mengklik "+ Aktifkan / Nonaktifkan" bulan, mengganti segmen/kuartal, atau menambah/menghapus program. Klik teks mana pun untuk mengeditnya langsung.',
+  refTitle: 'Terjemahan Praktis EntrePlanters 3ON3 di PTPN IV Regional V (Menjawab Isu Strategis CEO)',
+  thSticky: 'Keterangan Pelaksanaan (Kolom Kiri) & Inisiatif Strategis',
+  kpi0Label: 'Inisiatif Tampil',
+  kpi1Label: 'Karyawan Pelaksana / Pemanen', kpi1Sub: 'Ritual ancak, K3 & transparansi TPH',
+  kpi2Label: 'Karyawan Pimpinan Senior', kpi2Sub: 'Kuantifikasi losses, tandem & benchmarking',
+  kpi3Label: 'Talenta Muda & Change Agent', kpi3Sub: 'Problem solving, digital & suksesi 2028'
+};
+
+const DEFAULT_REF_CARDS = [
+  {
+    title: '1. Gap Pemahaman (3 dari 10) → Bahasa Ancak',
+    body: 'Tidak membebani pemanen dengan istilah asing. Diterjemahkan menjadi 3 gerak harian: Panen Bersih & Matang (Productivity), Jaga Alat & Hemat (Cost), Angkut Cepat Tanpa Restan (Speed).'
+  },
+  {
+    title: '2. Isu Fairness & Transparency → Papan TPH Terbuka',
+    body: 'Rekap tonase, fraksi matang, dan perhitungan premi ditempel terbuka tiap sore di TPH/Afdeling agar pekerja melihat langsung hubungan antara disiplin kerja dan imbalan.'
+  },
+  {
+    title: '3. Sikap Acuh Pimpinan Senior → Peer Benchmarking & Legacy',
+    body: 'Pimpinan senior tidak diceramahi, tetapi dilibatkan lewat perbandingan angka losses antar-kebun/PKS (Networking) dan kaderisasi asisten/mandor (Leader Create Leaders).'
+  },
+  {
+    title: '4. Tata Kelola & Risiko (IQM) → Rupiahkan Losses & Audit Fisik',
+    body: 'Setiap potensi penyimpangan operasional/pengadaan dan brondolan tertinggal dihitung nilai rupiahnya (Quantification) untuk memicu tindakan korektif cepat.'
+  }
+];
+
+const DEFAULT_PROGRAMS = [
+  {
+    id: 'p1', name: 'Apel Pagi 5 Menit "3 Gerak Ancak" (Tanpa Jargon)',
+    ket: 'Mandiri Unit (Kebun/PKS)', seg: 'Lapangan', quarter: 'Q1',
+    el3on3: ['5G Initiatives', 'Owner Mindset'],
+    mech: 'Mandor memimpin briefing 5 menit sebelum masuk blok: 1 titik rawan K3 & target kutip brondolan bersih.',
+    kpi: 'Zero Accident & Penurunan Losses Brondolan',
+    impact: 'Pemahaman perilaku kerja lapangan meningkat dari 30% menjadi >80% tanpa ceramah kelas.',
+    months: { 0: 'M1-M2 Siapkan kartu saku; M3-M4 Pilot 3 kebun', 1: 'M1-M4 Rutin harian & cek acak asisten', 2: 'M1-M4 Evaluasi Q1', 3: 'M1-M4 Replikasi penuh' }
+  },
+  {
+    id: 'p2', name: 'Papan Transparansi Tonase, Fraksi & Premi di TPH',
+    ket: 'Flagship Gebrakan 2027', seg: 'Lapangan', quarter: 'Q1',
+    el3on3: ['Owner Mindset', 'Excellence'],
+    mech: 'Pencatatan terbuka hasil potong buah & denda/premi di papan TPH tiap sore agar diawasi mandiri oleh pemanen.',
+    kpi: 'Kualitas Fraksi Matang & Produktivitas Pemanen',
+    impact: 'Menjawab langsung keluhan fairness & transparency; komplain premi turun signifikan dalam 60 hari.',
+    months: { 0: 'M3-M4 Desain papan standar TPH', 1: 'M1-M4 Pemasangan & uji coba di unit pilot', 2: 'M1-M4 Audit akurasi catatan sore', 3: 'M1-M4 Perluasan ke seluruh afdeling' }
+  },
+  {
+    id: 'p3', name: 'Klinik Kuantifikasi Risiko & Rupiah Losses (IQM)',
+    ket: 'Pendampingan Regional', seg: 'Pimpinan', quarter: 'Q1',
+    el3on3: ['IQM', 'Excellence'],
+    mech: 'Menghitung nilai rupiah dari brondolan tertinggal, restan >24 jam, dan potensi celah SPK pengadaan.',
+    kpi: 'HPP/Kg CPO & Kepatuhan Tata Kelola/Audit',
+    impact: 'Pimpinan senior bergerak karena melihat angka kerugian finansial unitnya secara konkret.',
+    months: { 1: 'M1-M2 Pemetaan profil risiko unit', 2: 'M1-M4 Workshop kuantifikasi rupiah losses', 4: 'M2-M3 Review mitigasi tengah tahun' }
+  },
+  {
+    id: 'p4', name: 'Bootcamp Change Agent & Talenta Muda Problem Solver',
+    ket: 'Pendampingan Regional', seg: 'Talenta', quarter: 'Q1',
+    el3on3: ['ECL', '5G Initiatives'],
+    mech: 'Membekali asisten muda/CA dengan teknik analisis akar masalah lapangan & pelaporan digital ringkas (tanpa beban admin).',
+    kpi: 'Kecepatan Penyelesaian Corrective Action (Speed)',
+    impact: 'Terbentuk 15-20 fasilitator lapangan aktif yang siap mendampingi unit pilot.',
+    months: { 1: 'M3-M4 Seleksi CA & asisten muda', 2: 'M1-M2 Bootcamp praktis 2 hari', 3: 'M1-M4 Penugasan proyek 100 hari' }
+  },
+  {
+    id: 'p5', name: 'Gerakan 100 Hari Zero Restan & Kutip Bersih',
+    ket: 'Flagship Gebrakan 2027', seg: 'Lapangan', quarter: 'Q2',
+    el3on3: ['Excellence', 'Owner Mindset'],
+    mech: 'Sinkronisasi jam potong buah, langsir TPH, dan jadwal truk angkut ke PKS dengan pemantauan harian.',
+    kpi: 'Restan TBS <1,5% & OER Pabrik',
+    impact: 'Bukti kuantitatif before-after 100 hari sebagai portofolio utama capaian Regional V.',
+    months: { 3: 'M1 Kick-off 100 Hari di unit pilot', 4: 'M1-M4 Monitoring harian & intervensi cepat', 5: 'M1-M3 Penutupan & hitung penghematan biaya' }
+  },
+  {
+    id: 'p6', name: 'Reverse Mentoring & Tandem Proyek Askep Senior x Asisten Muda',
+    ket: 'Flagship Gebrakan 2027', seg: 'Pimpinan', quarter: 'Q2',
+    el3on3: ['ECL', 'Networking'],
+    mech: 'Memasangkan Askep/Manajer senior dengan talenta muda untuk memecahkan 1 bottleneck kebun/PKS selama 90 hari.',
+    kpi: 'Pencapaian Target Produksi Unit & Kaderisasi',
+    impact: 'Meluluhkan sikap acuh pimpinan senior karena keberhasilan proyek diklaim sebagai prestasi unit mereka.',
+    months: { 3: 'M2 Pairing & kontrak proyek 90 hari', 4: 'M1-M4 Eksekusi lapangan bersama', 5: 'M3-M4 Presentasi hasil tandem ke Region Head' }
+  },
+  {
+    id: 'p7', name: 'Sekolah Lapang & Sertifikasi Mandor Panen Tangguh',
+    ket: 'Pendampingan Regional', seg: 'Lapangan', quarter: 'Q2',
+    el3on3: ['ECL', 'Excellence'],
+    mech: 'Pelatihan praktik langsung di ancak (bukan kelas) bagi mandor untuk mengawal kualitas potong buah dan keselamatan kerja.',
+    kpi: 'Kualitas TBS Masuk PKS & Disiplin Kerja',
+    impact: 'Mandor menjadi ujung tombak pengawasan harian yang adil dan konsisten.',
+    months: { 4: 'M1-M2 Kurikulum praktik lapangan', 5: 'M1-M4 Uji praktik & sertifikasi internal' }
+  },
+  {
+    id: 'p8', name: 'Sabuk Juara Pemanen & Apresiasi Sembako Keluarga',
+    ket: 'Mandiri Unit (Kebun/PKS)', seg: 'Lapangan', quarter: 'Q2',
+    el3on3: ['Owner Mindset'],
+    mech: 'Penghargaan bulanan berbasis data papan TPH untuk pemanen paling disiplin SOP, nihil kecelakaan, dan kutip bersih.',
+    kpi: 'Retensi Pemanen & Produktivitas Harian',
+    impact: 'Hadiah langsung menyentuh ekonomi keluarga sehingga memicu kompetisi sehat antar-ancak.',
+    months: { 4: 'M4 Apresiasi perdana bulan Mei', 5: 'M4 Apresiasi Juni', 7: 'M4 Edisi spesial HUT RI', 10: 'M4 Penilaian akhir tahun' }
+  },
+  {
+    id: 'p9', name: 'NGOPI & Culture Booster Terpadu (Format 30 Menit Solutif)',
+    ket: 'Integrasi Program Wajib Holding', seg: 'Lapangan', quarter: 'Q2',
+    el3on3: ['5G Initiatives', 'Networking'],
+    mech: 'Menggabungkan agenda wajib budaya menjadi dialog santai 30 menit di balai afdeling (70% dengar kendala, 30% solusi cepat).',
+    kpi: 'Penyelesaian Keluhan Operasional & Engagement',
+    impact: 'Menghilangkan kejenuhan program berulang serta memangkas laporan administratif berlebihan.',
+    months: { 2: 'M3 Sesi Q1', 5: 'M3 Sesi Q2', 8: 'M3 Sesi Q3', 11: 'M2 Sesi Q4' }
+  },
+  {
+    id: 'p10', name: 'Benchmarking & Studi Tiru Antar-Kebun/PKS (Peer Learning)',
+    ket: 'Flagship Gebrakan 2027', seg: 'Pimpinan', quarter: 'Q3',
+    el3on3: ['Networking', 'Excellence'],
+    mech: 'Kunjungan silang manajer/askep unit berkinerja rendah ke unit pilot terbaik untuk membedah praktik kerja secara terbuka.',
+    kpi: 'Percepatan Replikasi Best Practice Unit',
+    impact: 'Menciptakan peer pressure positif antar-pimpinan senior tanpa instruksi menggurui dari kantor regional.',
+    months: { 6: 'M2-M3 Kunjungan batch 1', 7: 'M2-M3 Kunjungan batch 2 & komitmen replikasi' }
+  },
+  {
+    id: 'p11', name: 'Gerakan Kemandirian Rawat Alat & Keselamatan Kerja (SADARI)',
+    ket: 'Integrasi Program Wajib Holding', seg: 'Lapangan', quarter: 'Q3',
+    el3on3: ['5G Initiatives', 'IQM'],
+    mech: 'Simulasi lapangan bahaya kerja (kabel listrik, pelepah, alat tajam) dan standar perawatan egrek/dodos.',
+    kpi: 'Zero Fatality & Efisiensi Biaya Alat Panen',
+    impact: 'Menurunkan angka cedera ringan dan memperpanjang usia pakai alat kerja.',
+    months: { 6: 'M1-M4 Simulasi K3 di titik rawan', 7: 'M1-M4 Audit kelayakan alat & APD' }
+  },
+  {
+    id: 'p12', name: 'Akselerasi Digital Praktis: E-Panen & Taksasi Data (GO-DIGI)',
+    ket: 'Integrasi Program Wajib Holding', seg: 'Talenta', quarter: 'Q3',
+    el3on3: ['5G Initiatives', 'Excellence'],
+    mech: 'Pendampingan penggunaan aplikasi internal PalmCo/PTPN & olah data sederhana untuk krani, mandor, dan asisten.',
+    kpi: 'Akurasi Taksasi & Kecepatan Pelaporan Harian',
+    impact: 'Selaras dengan fase Digital Synergy 2027–2028 tanpa materi teoritis yang membingungkan.',
+    months: { 7: 'M1-M4 Coaching aplikasi operasional', 8: 'M1-M4 Evaluasi kecepatan input data' }
+  },
+  {
+    id: 'p13', name: 'Klinik Kesiapan Musim Hujan & Tata Kelola SPK (IQM)',
+    ket: 'Mandiri Unit (Kebun/PKS)', seg: 'Pimpinan', quarter: 'Q3',
+    el3on3: ['IQM', '5G Initiatives'],
+    mech: 'Audit kesiapan jalan produksi/drainase jelang puncak hujan serta verifikasi fisik pekerjaan pihak ketiga.',
+    kpi: 'Kelancaran Evakuasi TBS & Zero Temuan Audit',
+    impact: 'Mencegah lonjakan restan saat musim hujan dan menjaga integritas pengadaan unit.',
+    months: { 8: 'M1-M4 Inspeksi jalan/parit & verifikasi SPK', 9: 'M1-M2 Tindak lanjut temuan lapangan' }
+  },
+  {
+    id: 'p14', name: 'Asesmen 9-Box & Pemetaan Suksesi Kader Pimpinan 2028',
+    ket: 'Pendampingan Regional', seg: 'Talenta', quarter: 'Q4',
+    el3on3: ['ECL', 'Owner Mindset'],
+    mech: 'Mengevaluasi kinerja talenta muda & mandor/asisten berprestasi berdasarkan rekam jejak proyek 2027.',
+    kpi: 'Kesiapan Talent Pool & Rencana Suksesi 2028',
+    impact: 'Menghubungkan langsung kontribusi perubahan budaya dengan jalur karier dan promosi.',
+    months: { 9: 'M2-M4 Pengumpulan portofolio dampak', 10: 'M1-M3 Kalibrasi talenta bersama pimpinan unit' }
+  },
+  {
+    id: 'p15', name: 'EntrePlanters Impact Showcase & Blueprint 2028',
+    ket: 'Flagship Gebrakan 2027', seg: 'Lapangan', quarter: 'Q4',
+    el3on3: ['5G Initiatives', 'ECL', 'IQM', 'Owner Mindset', 'Networking', 'Excellence'],
+    mech: 'Pameran hasil penghematan biaya, penurunan losses, apresiasi pemanen/unit terbaik, serta finalisasi rencana 2028.',
+    kpi: 'Capaian Kinerja Tahunan Regional V',
+    impact: 'Bukti komprehensif keberhasilan transformasi budaya & talenta 2027 di hadapan manajemen.',
+    months: { 10: 'M3-M4 Kompilasi data before-after', 11: 'M1-M2 Showcase & penganugerahan; M3-M4 Finalisasi 2028' }
+  }
+];
+
+let labels = JSON.parse(localStorage.getItem('ptpn_labels_2027_v3')) || [...DEFAULT_LABELS];
+let programs = JSON.parse(localStorage.getItem('ptpn_programs_2027_v3')) || JSON.parse(JSON.stringify(DEFAULT_PROGRAMS));
+let uiTexts = Object.assign({}, DEFAULT_UI_TEXTS, JSON.parse(localStorage.getItem('ptpn_uitexts_2027_v3') || '{}'));
+let refCards = JSON.parse(localStorage.getItem('ptpn_refcards_2027_v3')) || JSON.parse(JSON.stringify(DEFAULT_REF_CARDS));
+let currentView = 'gantt';
+
+// URL Web App Google Apps Script sudah terpasang agar seluruh tim langsung tersinkronisasi otomatis:
+const DEFAULT_GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwinprwg4nZHb2oO3RjLM5YstCS8dGQc7c1hkhm8m0nTMV1WNEz27PtBndACF59-Ls/exec';
+
+let gasWebAppUrl = localStorage.getItem('ptpn_gas_url_v1') || DEFAULT_GAS_WEBAPP_URL;
+let gasAutoPoll = localStorage.getItem('ptpn_gas_autopoll_v1') !== 'false';
+let pushTimer = null;
+let pollIntervalId = null;
+let lastSyncHash = '';
+
+function setSyncStatus(state, text) {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncStatusText');
+  const btnPull = document.getElementById('btnManualPull');
+  if (dot) {
+    dot.className = 'sync-dot' + (state ? ' ' + state : '');
+  }
+  if (lbl) lbl.textContent = text;
+  if (btnPull) btnPull.style.display = gasWebAppUrl ? 'inline-flex' : 'none';
+}
+
+function buildSyncPayload() {
+  return {
+    labels,
+    programs,
+    uiTexts,
+    refCards,
+    updatedAt: new Date().toISOString()
+  };
+}
+
+function saveAll(skipCloudPush = false) {
+  localStorage.setItem('ptpn_labels_2027_v3', JSON.stringify(labels));
+  localStorage.setItem('ptpn_3on3_2027_v3', JSON.stringify(elements3on3));
+  localStorage.setItem('ptpn_programs_2027_v3', JSON.stringify(programs));
+  localStorage.setItem('ptpn_uitexts_2027_v3', JSON.stringify(uiTexts));
+  localStorage.setItem('ptpn_refcards_2027_v3', JSON.stringify(refCards));
+  if (!skipCloudPush && gasWebAppUrl) {
+    schedulePushToGoogleSheet();
+  }
+}
+
+function schedulePushToGoogleSheet() {
+  if (!gasWebAppUrl) return;
+  setSyncStatus('busy', 'Menyimpan ke Sheet...');
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(() => {
+    pushNowToGoogleSheet();
+  }, 900);
+}
+
+async function pushNowToGoogleSheet() {
+  if (!gasWebAppUrl) return;
+  setSyncStatus('busy', 'Mengirim ke Sheet...');
+  try {
+    const payload = buildSyncPayload();
+    lastSyncHash = JSON.stringify({ labels: payload.labels, programs: payload.programs, uiTexts: payload.uiTexts, refCards: payload.refCards });
+    await fetch(gasWebAppUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    const nowStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    setSyncStatus('ok', `Tersimpan (${nowStr})`);
+  } catch (err) {
+    console.error(err);
+    setSyncStatus('err', 'Gagal kirim ke Sheet');
+  }
+}
+
+async function pullFromGoogleSheet(forceRender = false) {
+  if (!gasWebAppUrl) {
+    setSyncStatus('', 'Mode Lokal');
+    return;
+  }
+  const activeEl = document.activeElement;
+  const isEditingNow = activeEl && (
+    activeEl.isContentEditable ||
+    activeEl.tagName === 'INPUT' ||
+    activeEl.tagName === 'TEXTAREA' ||
+    activeEl.tagName === 'SELECT'
+  );
+  if (isEditingNow && !forceRender) return;
+
+  try {
+    if (forceRender) setSyncStatus('busy', 'Memuat dari Sheet...');
+    const sep = gasWebAppUrl.includes('?') ? '&' : '?';
+    const res = await fetch(`${gasWebAppUrl}${sep}t=${Date.now()}`, { method: 'GET' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data && Array.isArray(data.programs) && data.programs.length > 0) {
+      const incomingHash = JSON.stringify({
+        labels: data.labels || labels,
+        programs: data.programs,
+        uiTexts: data.uiTexts || uiTexts,
+        refCards: data.refCards || refCards
+      });
+      if (incomingHash !== lastSyncHash || forceRender) {
+        lastSyncHash = incomingHash;
+        if (Array.isArray(data.labels) && data.labels.length) labels = data.labels;
+        programs = data.programs.map(p => ({
+          ...p,
+          el3on3: normalize3on3Array(p.el3on3),
+          months: p.months && typeof p.months === 'object' ? p.months : {}
+        }));
+        if (data.uiTexts && typeof data.uiTexts === 'object') {
+          uiTexts = Object.assign({}, DEFAULT_UI_TEXTS, data.uiTexts);
+        }
+        if (Array.isArray(data.refCards) && data.refCards.length) {
+          refCards = data.refCards;
+        }
+        saveAll(true);
+        populateLabelSelects();
+        render();
+      }
+    }
+    const nowStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    setSyncStatus('ok', `Terhubung Sheet (${nowStr})`);
+  } catch (err) {
+    console.error(err);
+    setSyncStatus('err', 'Offline / Cek URL Sheet');
+  }
+}
+
+function startPollingLoop() {
+  if (pollIntervalId) clearInterval(pollIntervalId);
+  if (gasWebAppUrl && gasAutoPoll) {
+    pollIntervalId = setInterval(() => pullFromGoogleSheet(false), 15000);
+  }
+}
+
+function openSyncModal() {
+  document.getElementById('gasUrlInput').value = gasWebAppUrl || '';
+  document.getElementById('gasAutoPollChk').checked = gasAutoPoll;
+  document.getElementById('syncModal').classList.add('open');
+}
+
+function saveSyncSettings() {
+  const url = document.getElementById('gasUrlInput').value.trim();
+  gasAutoPoll = document.getElementById('gasAutoPollChk').checked;
+  gasWebAppUrl = url;
+  localStorage.setItem('ptpn_gas_url_v1', gasWebAppUrl);
+  localStorage.setItem('ptpn_gas_autopoll_v1', String(gasAutoPoll));
+  closeModal('syncModal');
+  if (gasWebAppUrl) {
+    pullFromGoogleSheet(true);
+    startPollingLoop();
+  } else {
+    setSyncStatus('', 'Mode Lokal');
+  }
+}
+
+function disconnectGoogleSheet() {
+  gasWebAppUrl = '';
+  localStorage.removeItem('ptpn_gas_url_v1');
+  if (pollIntervalId) clearInterval(pollIntervalId);
+  closeModal('syncModal');
+  setSyncStatus('', 'Mode Lokal');
+}
+
+function getQuarterFromMonths(monthsObj) {
+  const idxs = Object.keys(monthsObj || {}).map(Number);
+  if (!idxs.length) return 'Q1';
+  const counts = { Q1: 0, Q2: 0, Q3: 0, Q4: 0 };
+  idxs.forEach(m => {
+    if (m <= 2) counts.Q1++;
+    else if (m <= 5) counts.Q2++;
+    else if (m <= 8) counts.Q3++;
+    else counts.Q4++;
+  });
+  return Object.entries(counts).sort((a,b) => b[1] - a[1])[0][0];
+}
+
+function populateQuarterFilter() {
+  const sel = document.getElementById('filterQuarter');
+  if (!sel) return;
+  const prev = sel.value || 'ALL';
+  const qLabels = QUARTERS_META.map((qm, i) => {
+    const raw = (uiTexts['qHead_' + i] || qm.label).trim();
+    const count = programs.filter(p => (p.quarter || getQuarterFromMonths(p.months)) === qm.key).length;
+    return { key: qm.key, text: `${raw} (${count})` };
+  });
+
+  sel.innerHTML = `
+    <option value="ALL">Semua Kuartal (Q1–Q4 • ${programs.length})</option>
+    ${qLabels.map(q => `<option value="${q.key}">${q.text}</option>`).join('')}
+  `;
+  if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
+}
+
+function populateQuarterFilter() {
+  const sel = document.getElementById('filterQuarter');
+  if (!sel) return;
+  const prev = sel.value || 'ALL';
+  const qLabels = QUARTERS_META.map((qm, i) => {
+    const raw = (uiTexts['qHead_' + i] || qm.label).trim();
+    const count = programs.filter(p => (p.quarter || getQuarterFromMonths(p.months)) === qm.key).length;
+    return { key: qm.key, text: `${raw} (${count})` };
+  });
+
+  sel.innerHTML = `
+    <option value="ALL">Semua Kuartal (Q1–Q4 • ${programs.length})</option>
+    ${qLabels.map(q => `<option value="${q.key}">${q.text}</option>`).join('')}
+  `;
+  if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
+}
+
+function populateSegmentFilter() {
+  const sel = document.getElementById('filterSegment');
+  const prev = sel.value || 'ALL';
+  const cLap = programs.filter(p => p.seg === 'Lapangan').length;
+  const cPim = programs.filter(p => p.seg === 'Pimpinan').length;
+  const cTal = programs.filter(p => p.seg === 'Talenta').length;
+
+  sel.innerHTML = `
+    <option value="ALL">Semua Segmen (${programs.length} Inisiatif)</option>
+    <option value="Lapangan">Pelaksana / Pemanen (${cLap})</option>
+    <option value="Pimpinan">Pimpinan Senior (${cPim})</option>
+    <option value="Talenta">Talenta / Change Agent (${cTal})</option>
+  `;
+  if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
+}
+
+function applyStaticUITexts() {
+  Object.keys(DEFAULT_UI_TEXTS).forEach(key => {
+    const el = document.getElementById(key);
+    if (el && document.activeElement !== el) {
+      el.textContent = uiTexts[key];
+    }
+  });
+}
+
+function bindInlineEdits() {
+  document.querySelectorAll('.editable-text[data-ui-key]').forEach(el => {
+    el.onblur = () => {
+      const k = el.getAttribute('data-ui-key');
+      uiTexts[k] = el.textContent.trim();
+      saveAll();
+      if (k && k.startsWith('qHead_')) {
+        populateQuarterFilter();
+      }
+    };
+    el.oninput = () => {
+      const k = el.getAttribute('data-ui-key');
+      if (k && k.startsWith('qHead_')) {
+        uiTexts[k] = el.textContent;
+        saveAll();
+        populateQuarterFilter();
+      }
+    };
+  });
+
+  document.querySelectorAll('[data-prog-field]').forEach(el => {
+    el.onblur = () => {
+      const id = el.getAttribute('data-prog-id');
+      const field = el.getAttribute('data-prog-field');
+      const p = programs.find(x => x.id === id);
+      if (p) {
+        p[field] = el.textContent.trim();
+        saveAll();
+      }
+    };
+  });
+
+  document.querySelectorAll('[data-month-edit]').forEach(el => {
+    el.onblur = () => {
+      const id = el.getAttribute('data-prog-id');
+      const mIdx = Number(el.getAttribute('data-month-idx'));
+      const p = programs.find(x => x.id === id);
+      if (p) {
+        const val = el.textContent.trim();
+        if (val) p.months[mIdx] = val;
+        else delete p.months[mIdx];
+        p.quarter = getQuarterFromMonths(p.months);
+        saveAll();
+        renderKPIs(getFilteredPrograms());
+      }
+    };
+  });
+
+  document.querySelectorAll('[data-ref-idx]').forEach(el => {
+    el.onblur = () => {
+      const idx = Number(el.getAttribute('data-ref-idx'));
+      const field = el.getAttribute('data-ref-field');
+      if (refCards[idx]) {
+        refCards[idx][field] = el.textContent.trim();
+        saveAll();
+      }
+    };
+  });
+}
+
+function renderKetOptions(selectedVal) {
+  const opts = labels.includes(selectedVal) ? labels : [selectedVal, ...labels].filter(Boolean);
+  return opts.map(l => `<option value="${l.replace(/"/g, '&quot;')}" ${l === selectedVal ? 'selected' : ''}>${l}</option>`).join('');
+}
+
+function populateLabelSelects() {
+  const filterKet = document.getElementById('filterKeterangan');
+  const progKet = document.getElementById('progKet');
+  const currentFilter = filterKet.value || 'ALL';
+
+  filterKet.innerHTML = '<option value="ALL">Semua Keterangan</option>' +
+    labels.map(l => {
+      const cnt = programs.filter(p => p.ket === l).length;
+      return `<option value="${l.replace(/"/g, '&quot;')}">${l} (${cnt})</option>`;
+    }).join('');
+  if (currentFilter === 'ALL' || labels.includes(currentFilter)) {
+    filterKet.value = currentFilter;
+  } else {
+    filterKet.value = 'ALL';
+  }
+
+  progKet.innerHTML = labels.map(l => `<option value="${l.replace(/"/g, '&quot;')}">${l}</option>`).join('');
+  syncKetEditInput();
+}
+
+function syncKetEditInput() {
+  const filterKet = document.getElementById('filterKeterangan');
+  const inp = document.getElementById('ketEditInput');
+  if (!filterKet || !inp) return;
+  if (document.activeElement === inp) return;
+  if (filterKet.value && filterKet.value !== 'ALL') {
+    inp.value = filterKet.value;
+    inp.placeholder = 'Edit label terpilih...';
+  } else {
+    inp.value = labels[0] || '';
+    inp.placeholder = 'Edit label kiri atau ketik baru (+ Tambah)...';
+  }
+}
+
+function onFilterKeteranganChange() {
+  syncKetEditInput();
+  render();
+}
+
+function liveSyncSelectedKetLabel() {
+  const filterKet = document.getElementById('filterKeterangan');
+  const inp = document.getElementById('ketEditInput');
+  if (!filterKet || !inp) return;
+  const newVal = inp.value;
+  if (!newVal.trim()) return;
+
+  const selectedVal = filterKet.value;
+  if (selectedVal && selectedVal !== 'ALL') {
+    const idx = labels.indexOf(selectedVal);
+    if (idx !== -1) {
+      labels[idx] = newVal;
+    } else {
+      labels.push(newVal);
+    }
+    programs.forEach(p => {
+      if (p.ket === selectedVal) p.ket = newVal;
+    });
+    saveAll();
+
+    const currentPos = inp.selectionStart;
+    filterKet.innerHTML = '<option value="ALL">Semua Keterangan</option>' +
+      labels.map(l => {
+        const cnt = programs.filter(p => p.ket === l).length;
+        return `<option value="${l.replace(/"/g, '&quot;')}">${l} (${cnt})</option>`;
+      }).join('');
+    filterKet.value = newVal;
+    inp.setSelectionRange(currentPos, currentPos);
+
+    document.querySelectorAll('.inline-ket-select').forEach(sel => {
+      const prevProgKet = sel.value === selectedVal ? newVal : sel.value;
+      sel.innerHTML = renderKetOptions(prevProgKet);
+      sel.value = prevProgKet;
+    });
+
+    const progKet = document.getElementById('progKet');
+    if (progKet) progKet.innerHTML = labels.map(l => `<option value="${l.replace(/"/g, '&quot;')}">${l}</option>`).join('');
+
+    const qKet = document.getElementById('quickProgKet');
+    if (qKet) {
+      const prevQ = qKet.value === selectedVal ? newVal : qKet.value;
+      qKet.innerHTML = labels.map(l => `<option value="${l.replace(/"/g, '&quot;')}">${l}</option>`).join('');
+      if (labels.includes(prevQ)) qKet.value = prevQ;
+    }
+  } else {
+    // Jika filterKet di 'Semua Keterangan', sinkronkan langsung ke item pertama label kiri
+    if (!labels.length) labels.push(newVal);
+    const oldFirst = labels[0];
+    labels[0] = newVal;
+    programs.forEach(p => {
+      if (p.ket === oldFirst) p.ket = newVal;
+    });
+    saveAll();
+
+    document.querySelectorAll('.inline-ket-select').forEach(sel => {
+      const prevProgKet = sel.value === oldFirst ? newVal : sel.value;
+      sel.innerHTML = renderKetOptions(prevProgKet);
+      sel.value = prevProgKet;
+    });
+
+    const progKet = document.getElementById('progKet');
+    if (progKet) progKet.innerHTML = labels.map(l => `<option value="${l.replace(/"/g, '&quot;')}">${l}</option>`).join('');
+
+    const qKet = document.getElementById('quickProgKet');
+    if (qKet) {
+      const prevQ = qKet.value === oldFirst ? newVal : qKet.value;
+      qKet.innerHTML = labels.map(l => `<option value="${l.replace(/"/g, '&quot;')}">${l}</option>`).join('');
+      if (labels.includes(prevQ)) qKet.value = prevQ;
+    }
+  }
+}
+
+function addKetLabelFromFilter() {
+  const inp = document.getElementById('ketEditInput');
+  const filterKet = document.getElementById('filterKeterangan');
+  if (!inp) return;
+  const val = inp.value.trim();
+  if (!val) return;
+  if (!labels.includes(val)) {
+    labels.push(val);
+  }
+  saveAll();
+  filterKet.value = val;
+  populateLabelSelects();
+  render();
+}
+
+function deleteSelectedKetLabel() {
+  const filterKet = document.getElementById('filterKeterangan');
+  if (!filterKet || filterKet.value === 'ALL') return;
+  const target = filterKet.value;
+  if (labels.length <= 1) return;
+  const fallback = labels.find(l => l !== target) || '';
+  labels = labels.filter(l => l !== target);
+  programs.forEach(p => {
+    if (p.ket === target) p.ket = fallback;
+  });
+  saveAll();
+  filterKet.value = 'ALL';
+  populateLabelSelects();
+  render();
+}
+
+function changeProgramKeterangan(progId, newKet) {
+  const p = programs.find(x => x.id === progId);
+  if (!p) return;
+  p.ket = newKet;
+  if (!labels.includes(newKet) && newKet) labels.push(newKet);
+  saveAll();
+  populateLabelSelects();
+  renderKPIs(getFilteredPrograms());
+}
+
+let elements3on3 = [...DEFAULT_3ON3_ELEMENTS];
+let filter3on3Selected = JSON.parse(localStorage.getItem('ptpn_3on3_filter_v4') || '[]');
+let quick3on3Selected = JSON.parse(localStorage.getItem('ptpn_3on3_quick_v4') || '["Excellence"]');
+let activePopoverTarget = null;
+
+function renderInline3on3(prog) {
+  const arr = normalize3on3Array(prog.el3on3);
+  const tags = arr.map(t => `<span class="inline-3on3-tag">${t}</span>`).join('');
+  return `<span class="inline-3on3-wrap">${tags}<button type="button" class="inline-3on3-trigger btn-edit-only" onclick="open3on3Popover(event, 'prog:${prog.id}')">Checklist ▾</button></span>`;
+}
+
+function update3on3ButtonLabels() {
+  const fLbl = document.getElementById('filter3on3BtnLabel');
+  if (fLbl) {
+    fLbl.textContent = filter3on3Selected.length ? filter3on3Selected.join(', ') : 'Semua (6 Elemen)';
+  }
+  const qLbl = document.getElementById('quick3on3BtnLabel');
+  if (qLbl) {
+    qLbl.textContent = quick3on3Selected.length ? `3ON3: ${quick3on3Selected.join(', ')}` : '3ON3: Belum dipilih';
+  }
+}
+
+function getSelectedListForTarget(target) {
+  if (target === 'filter') return filter3on3Selected;
+  if (target === 'quick') return quick3on3Selected;
+  if (target && target.startsWith('prog:')) {
+    const pid = target.slice(5);
+    const p = programs.find(x => x.id === pid);
+    return p ? normalize3on3Array(p.el3on3) : [];
+  }
+  return [];
+}
+
+function render3on3PopoverContent(target) {
+  const pop = document.getElementById('shared3on3Popover');
+  if (!pop) return;
+  const selected = getSelectedListForTarget(target);
+  const items = DEFAULT_3ON3_ELEMENTS.map(opt => {
+    const chk = selected.includes(opt) ? 'checked' : '';
+    return `<label class="chk-dd-item"><input type="checkbox" ${chk} onchange="toggle3on3Option('${target.replace(/'/g, "\\'")}', '${opt.replace(/'/g, "\\'")}', this.checked)"><span>${opt}</span></label>`;
+  }).join('');
+  pop.innerHTML = `${items}<div class="chk-dd-foot"><span>${selected.length} dipilih</span><button type="button" style="background:none;border:none;color:#dc2626;font-weight:700;cursor:pointer;" onclick="clear3on3Target('${target.replace(/'/g, "\\'")}')">Reset</button></div>`;
+}
+
+function open3on3Popover(event, target) {
+  event.stopPropagation();
+  const pop = document.getElementById('shared3on3Popover');
+  const btn = event.currentTarget;
+  if (pop.classList.contains('open') && activePopoverTarget === target) {
+    close3on3Popover();
+    return;
+  }
+  activePopoverTarget = target;
+  render3on3PopoverContent(target);
+  const rect = btn.getBoundingClientRect();
+  pop.classList.add('open');
+  const w = Math.max(215, rect.width);
+  pop.style.minWidth = w + 'px';
+  pop.style.left = Math.min(window.innerWidth - w - 10, Math.max(10, rect.left)) + 'px';
+  pop.style.top = Math.min(window.innerHeight - 235, rect.bottom + 4) + 'px';
+}
+
+function close3on3Popover() {
+  const pop = document.getElementById('shared3on3Popover');
+  if (pop) pop.classList.remove('open');
+  activePopoverTarget = null;
+}
+
+function toggle3on3Option(target, opt, checked) {
+  if (target === 'filter') {
+    if (checked && !filter3on3Selected.includes(opt)) filter3on3Selected.push(opt);
+    if (!checked) filter3on3Selected = filter3on3Selected.filter(x => x !== opt);
+    filter3on3Selected = DEFAULT_3ON3_ELEMENTS.filter(x => filter3on3Selected.includes(x));
+    localStorage.setItem('ptpn_3on3_filter_v4', JSON.stringify(filter3on3Selected));
+    render();
+    render3on3PopoverContent(target);
+  } else if (target === 'quick') {
+    if (checked && !quick3on3Selected.includes(opt)) quick3on3Selected.push(opt);
+    if (!checked) quick3on3Selected = quick3on3Selected.filter(x => x !== opt);
+    quick3on3Selected = DEFAULT_3ON3_ELEMENTS.filter(x => quick3on3Selected.includes(x));
+    localStorage.setItem('ptpn_3on3_quick_v4', JSON.stringify(quick3on3Selected));
+    update3on3ButtonLabels();
+    render3on3PopoverContent(target);
+  } else if (target && target.startsWith('prog:')) {
+    const pid = target.slice(5);
+    const p = programs.find(x => x.id === pid);
+    if (!p) return;
+    let cur = normalize3on3Array(p.el3on3);
+    if (checked && !cur.includes(opt)) cur.push(opt);
+    if (!checked) cur = cur.filter(x => x !== opt);
+    p.el3on3 = DEFAULT_3ON3_ELEMENTS.filter(x => cur.includes(x));
+    saveAll();
+    render();
+    render3on3PopoverContent(target);
+  }
+}
+
+function clear3on3Target(target) {
+  if (target === 'filter') {
+    filter3on3Selected = [];
+    localStorage.setItem('ptpn_3on3_filter_v4', '[]');
+    render();
+    render3on3PopoverContent(target);
+  } else if (target === 'quick') {
+    quick3on3Selected = [];
+    localStorage.setItem('ptpn_3on3_quick_v4', '[]');
+    update3on3ButtonLabels();
+    render3on3PopoverContent(target);
+  } else if (target && target.startsWith('prog:')) {
+    const pid = target.slice(5);
+    const p = programs.find(x => x.id === pid);
+    if (!p) return;
+    p.el3on3 = [];
+    saveAll();
+    render();
+    render3on3PopoverContent(target);
+  }
+}
+
+document.addEventListener('click', (e) => {
+  const pop = document.getElementById('shared3on3Popover');
+  if (!pop || !pop.classList.contains('open')) return;
+  if (!pop.contains(e.target) && !e.target.closest('.chk-dd-btn') && !e.target.closest('.inline-3on3-trigger')) {
+    close3on3Popover();
+  }
+});
+
+function populateQuickAddBar() {
+  const qKet = document.getElementById('quickProgKet');
+  const q3 = document.getElementById('quickProg3on3');
+  if (qKet) {
+    const prevK = qKet.value;
+    qKet.innerHTML = labels.map(l => `<option value="${l.replace(/"/g, '&quot;')}">${l}</option>`).join('');
+    if (labels.includes(prevK)) qKet.value = prevK;
+  }
+  if (q3) {
+    const prev3 = q3.value;
+    q3.innerHTML = elements3on3.map(el => `<option value="${el.replace(/"/g, '&quot;')}">${el}</option>`).join('');
+    if (elements3on3.includes(prev3)) q3.value = prev3;
+  }
+}
+
+function quickAddProgramToTimeline() {
+  const nameInp = document.getElementById('quickProgName');
+  const name = (nameInp ? nameInp.value.trim() : '') || 'Inisiatif Baru 2027';
+  const ket = (document.getElementById('quickProgKet') && document.getElementById('quickProgKet').value) || labels[0] || '';
+  const seg = (document.getElementById('quickProgSeg') && document.getElementById('quickProgSeg').value) || 'Lapangan';
+  const quarter = (document.getElementById('quickProgQ') && document.getElementById('quickProgQ').value) || 'Q1';
+  const el3on3 = quick3on3Selected.length ? [...quick3on3Selected] : ['Excellence'];
+  const mIdx = Number((document.getElementById('quickProgMonth') && document.getElementById('quickProgMonth').value) || 0);
+
+  const newProg = {
+    id: 'p' + Date.now(),
+    name,
+    ket,
+    seg,
+    quarter,
+    el3on3,
+    mech: 'Klik untuk mengisi mekanisme lapangan',
+    kpi: 'KPI Eksisting Unit',
+    impact: 'Target dampak before-after',
+    months: { [mIdx]: 'M1-M4 Pelaksanaan aktif' }
+  };
+  programs.push(newProg);
+  saveAll();
+  if (nameInp) nameInp.value = '';
+  render();
+}
+
+function addProgramFromTimelineRow() {
+  const inp = document.getElementById('rowAddProgName');
+  const name = (inp && inp.value.trim()) || 'Inisiatif Baru Timeline';
+  const newProg = {
+    id: 'p' + Date.now(),
+    name,
+    ket: labels[0] || '',
+    seg: 'Lapangan',
+    quarter: 'Q1',
+    el3on3: quick3on3Selected.length ? [...quick3on3Selected] : ['Excellence'],
+    mech: 'Klik untuk mengisi mekanisme lapangan',
+    kpi: 'KPI Eksisting Unit',
+    impact: 'Target dampak before-after',
+    months: { 0: 'M1-M4 Aktif' }
+  };
+  programs.push(newProg);
+  saveAll();
+  if (inp) inp.value = '';
+  render();
+}
+
+function addProgramInMonth(monthIdx) {
+  const idx = Number(monthIdx);
+  const q = idx <= 2 ? 'Q1' : (idx <= 5 ? 'Q2' : (idx <= 8 ? 'Q3' : 'Q4'));
+  const newProg = {
+    id: 'p' + Date.now(),
+    name: `Program Baru (${MONTHS[idx]} 2027)`,
+    ket: labels[0] || '',
+    seg: 'Lapangan',
+    quarter: q,
+    el3on3: quick3on3Selected.length ? [...quick3on3Selected] : ['Excellence'],
+    mech: 'Klik untuk mengisi mekanisme lapangan',
+    kpi: 'KPI Eksisting Unit',
+    impact: 'Target dampak before-after',
+    months: { [idx]: 'M1-M4 Aktif' }
+  };
+  programs.push(newProg);
+  saveAll();
+  render();
+}
+
+function getFilteredPrograms() {
+  const q = document.getElementById('filterQuarter').value;
+  const s = document.getElementById('filterSegment').value;
+  const k = document.getElementById('filterKeterangan').value;
+  return programs.filter(p => {
+    if (q !== 'ALL' && p.quarter !== q) return false;
+    if (s !== 'ALL' && p.seg !== s) return false;
+    if (k !== 'ALL' && p.ket !== k) return false;
+    if (filter3on3Selected.length > 0) {
+      const pArr = normalize3on3Array(p.el3on3);
+      if (!filter3on3Selected.some(sel => pArr.includes(sel))) return false;
+    }
+    return true;
+  });
+}
+
+function renderKPIs(list) {
+  const qFilter = document.getElementById('filterQuarter').value;
+  const lap = list.filter(p => p.seg === 'Lapangan').length;
+  const pim = list.filter(p => p.seg === 'Pimpinan').length;
+  const tal = list.filter(p => p.seg === 'Talenta').length;
+  const activeMonths = list.reduce((acc, p) => acc + Object.keys(p.months).length, 0);
+
+  // Hitung distribusi kuartal otomatis dari daftar program yang tampil
+  const qCounts = { Q1: 0, Q2: 0, Q3: 0, Q4: 0 };
+  list.forEach(p => {
+    const qk = p.quarter || getQuarterFromMonths(p.months);
+    if (qCounts[qk] !== undefined) qCounts[qk]++;
+  });
+
+  const qSummaryText = qFilter === 'ALL'
+    ? `Q1: ${qCounts.Q1} • Q2: ${qCounts.Q2} • Q3: ${qCounts.Q3} • Q4: ${qCounts.Q4}`
+    : `Fokus ${qFilter}: ${list.length} program (${activeMonths} titik bulan aktif)`;
+
+  const qPillsHtml = ['Q1','Q2','Q3','Q4'].map(qk =>
+    `<span class="q-pill">${qk}: ${qCounts[qk]} prog</span>`
+  ).join('');
+
+  document.getElementById('kpiGrid').innerHTML = `
+    <div class="kpi-card">
+      <div class="kpi-label editable-text" contenteditable="true" data-ui-key="kpi0Label">${uiTexts.kpi0Label}</div>
+      <div class="kpi-val">${list.length} <span class="denom">/ ${programs.length} total</span></div>
+      <div class="kpi-sub">${qSummaryText} • ${activeMonths} titik bulan aktif</div>
+      <div class="kpi-q-pills">${qPillsHtml}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label editable-text" contenteditable="true" data-ui-key="kpi1Label">${uiTexts.kpi1Label}</div>
+      <div class="kpi-val">${lap} <span class="denom">program</span></div>
+      <div class="kpi-sub editable-text" contenteditable="true" data-ui-key="kpi1Sub">${uiTexts.kpi1Sub}</div>
+    </div>
+    <div class="kpi-card gold">
+      <div class="kpi-label editable-text" contenteditable="true" data-ui-key="kpi2Label">${uiTexts.kpi2Label}</div>
+      <div class="kpi-val">${pim} <span class="denom">program</span></div>
+      <div class="kpi-sub editable-text" contenteditable="true" data-ui-key="kpi2Sub">${uiTexts.kpi2Sub}</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label editable-text" contenteditable="true" data-ui-key="kpi3Label">${uiTexts.kpi3Label}</div>
+      <div class="kpi-val">${tal} <span class="denom">program</span></div>
+      <div class="kpi-sub editable-text" contenteditable="true" data-ui-key="kpi3Sub">${uiTexts.kpi3Sub}</div>
+    </div>
+  `;
+}
+
+function changeProgramSegment(progId, newSeg) {
+  const p = programs.find(x => x.id === progId);
+  if (!p) return;
+  p.seg = newSeg;
+  saveAll();
+  render();
+}
+
+function changeProgramQuarter(progId, newQ) {
+  const p = programs.find(x => x.id === progId);
+  if (!p) return;
+  p.quarter = newQ;
+  saveAll();
+  render();
+}
+
+function toggleMonthActive(progId, monthIdx) {
+  const p = programs.find(x => x.id === progId);
+  if (!p) return;
+  if (p.months[monthIdx] !== undefined) {
+    delete p.months[monthIdx];
+  } else {
+    p.months[monthIdx] = 'M1-M4 Aktif';
+  }
+  p.quarter = getQuarterFromMonths(p.months);
+  saveAll();
+  render();
+}
+
+function renderGantt(list) {
+  if (!list.length) {
+    return '<div style="padding:32px;text-align:center;background:#fff;border-radius:8px;border:1px solid #cbd5e1;">Tidak ada program yang sesuai dengan filter terpilih.</div>';
+  }
+
+  const qHeaders = QUARTERS_META.map((qm, i) => {
+    const countInQ = list.filter(p => (p.quarter || getQuarterFromMonths(p.months)) === qm.key).length;
+    const baseLabel = uiTexts['qHead_' + i] || qm.label;
+    return `<th class="q-head" colspan="3">
+      <span class="editable-text" contenteditable="true" data-ui-key="qHead_${i}">${baseLabel}</span>
+      <div style="font-size:0.68rem;font-weight:600;color:#d6e8ce;margin-top:2px;">(${countInQ} program tampil)</div>
+    </th>`;
+  }).join('');
+
+  const rows = list.map(p => {
+    const segClass = p.seg === 'Pimpinan' ? 'pim' : (p.seg === 'Talenta' ? 'tal' : '');
+    const cells = MONTHS.map((m, idx) => {
+      const note = p.months[idx];
+      if (note !== undefined) {
+        return `<td class="month-cell">
+          <div class="month-active ${segClass}">
+            <div class="m-week">${m} • Aktif</div>
+            <div class="m-note editable-text" contenteditable="true" data-month-edit="1" data-prog-id="${p.id}" data-month-idx="${idx}">${note}</div>
+            <button type="button" class="cell-toggle-btn" onclick="toggleMonthActive('${p.id}', ${idx})">Nonaktifkan</button>
+          </div>
+        </td>`;
+      }
+      return `<td class="month-cell">
+        <button type="button" class="month-empty-btn" onclick="toggleMonthActive('${p.id}', ${idx})">+ Aktifkan ${m}</button>
+      </td>`;
+    }).join('');
+
+    return `<tr>
+      <td class="sticky-col">
+        <div class="badge-row">
+          <select class="inline-ket-select" onchange="changeProgramKeterangan('${p.id}', this.value)">${renderKetOptions(p.ket)}</select>
+          <select class="inline-seg-select" onchange="changeProgramSegment('${p.id}', this.value)">
+            <option value="Lapangan" ${p.seg === 'Lapangan' ? 'selected' : ''}>Pelaksana / Pemanen</option>
+            <option value="Pimpinan" ${p.seg === 'Pimpinan' ? 'selected' : ''}>Pimpinan Senior</option>
+            <option value="Talenta" ${p.seg === 'Talenta' ? 'selected' : ''}>Talenta / CA</option>
+          </select>
+          <select class="inline-seg-select" onchange="changeProgramQuarter('${p.id}', this.value)">
+            <option value="Q1" ${p.quarter === 'Q1' ? 'selected' : ''}>Q1</option>
+            <option value="Q2" ${p.quarter === 'Q2' ? 'selected' : ''}>Q2</option>
+            <option value="Q3" ${p.quarter === 'Q3' ? 'selected' : ''}>Q3</option>
+            <option value="Q4" ${p.quarter === 'Q4' ? 'selected' : ''}>Q4</option>
+          </select>
+        </div>
+        <div class="prog-title editable-text" contenteditable="true" data-prog-id="${p.id}" data-prog-field="name">${p.name}</div>
+        <div class="prog-meta-line">
+          <strong>3ON3:</strong> ${renderInline3on3(p)} |
+          <strong>KPI:</strong> <span class="editable-text" contenteditable="true" data-prog-id="${p.id}" data-prog-field="kpi">${p.kpi}</span>
+        </div>
+        <div class="prog-meta-line">
+          <strong>Aksi:</strong> <span class="editable-text" contenteditable="true" data-prog-id="${p.id}" data-prog-field="mech">${p.mech}</span>
+        </div>
+        <div class="prog-actions-mini">
+          <button type="button" class="mini-link" onclick="openProgramModal('${p.id}')">Edit Form Lengkap</button>
+          <button type="button" class="mini-link" style="color:#b91c1c;" onclick="quickDeleteProgram('${p.id}')">Hapus</button>
+        </div>
+      </td>
+      ${cells}
+    </tr>`;
+  }).join('');
+
+  return `<div class="gantt-wrapper">
+    <table class="gantt">
+      <thead>
+        <tr>
+          <th class="sticky-col" rowspan="2"><span class="editable-text" contenteditable="true" data-ui-key="thSticky">${uiTexts.thSticky}</span></th>
+          ${qHeaders}
+        </tr>
+        <tr>
+          ${MONTHS.map(m => `<th>${m}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        ${rows}
+        <tr class="timeline-add-row btn-edit-only">
+          <td class="sticky-col">
+            <div style="display:flex;gap:6px;align-items:center;">
+              <input type="text" id="rowAddProgName" placeholder="Ketik nama program baru di timeline..." style="flex:1;padding:6px 8px;font-size:0.78rem;">
+              <button type="button" class="btn btn-forest btn-mini" onclick="addProgramFromTimelineRow()">+ Tambah Baris</button>
+            </div>
+          </td>
+          ${MONTHS.map((m, mIdx) => `<td style="text-align:center;vertical-align:middle;">
+            <button type="button" class="cell-toggle-btn" style="color:var(--forest-800);font-weight:700;" onclick="addProgramInMonth('${mIdx}')">+ ${m}</button>
+          </td>`).join('')}
+        </tr>
+      </tbody>
+    </table>
+  </div>`;
+}
+
+function renderCards(list) {
+  if (!list.length) {
+    return '<div style="padding:32px;text-align:center;background:#fff;border-radius:8px;border:1px solid #cbd5e1;">Tidak ada program yang sesuai dengan filter terpilih.</div>';
+  }
+  return `<div class="cards-grid">` + list.map(p => {
+    const activeList = Object.entries(p.months)
+      .sort((a,b) => Number(a[0]) - Number(b[0]))
+      .map(([idx, note]) => `<li><strong>${MONTHS[idx]}:</strong> <span class="editable-text" contenteditable="true" data-month-edit="1" data-prog-id="${p.id}" data-month-idx="${idx}">${note}</span></li>`).join('');
+
+    return `<div class="card">
+      <div>
+        <div class="badge-row">
+          <select class="inline-ket-select" onchange="changeProgramKeterangan('${p.id}', this.value)">${renderKetOptions(p.ket)}</select>
+          <select class="inline-seg-select" onchange="changeProgramSegment('${p.id}', this.value)">
+            <option value="Lapangan" ${p.seg === 'Lapangan' ? 'selected' : ''}>Pelaksana / Pemanen</option>
+            <option value="Pimpinan" ${p.seg === 'Pimpinan' ? 'selected' : ''}>Pimpinan Senior</option>
+            <option value="Talenta" ${p.seg === 'Talenta' ? 'selected' : ''}>Talenta / CA</option>
+          </select>
+          <select class="inline-seg-select" onchange="changeProgramQuarter('${p.id}', this.value)">
+            <option value="Q1" ${p.quarter === 'Q1' ? 'selected' : ''}>Q1</option>
+            <option value="Q2" ${p.quarter === 'Q2' ? 'selected' : ''}>Q2</option>
+            <option value="Q3" ${p.quarter === 'Q3' ? 'selected' : ''}>Q3</option>
+            <option value="Q4" ${p.quarter === 'Q4' ? 'selected' : ''}>Q4</option>
+          </select>
+        </div>
+        <h3 class="editable-text" contenteditable="true" data-prog-id="${p.id}" data-prog-field="name">${p.name}</h3>
+        <div class="card-meta"><strong>Elemen 3ON3:</strong> ${renderInline3on3(p)}</div>
+        <div class="card-box"><strong>Mekanisme Lapangan:</strong> <span class="editable-text" contenteditable="true" data-prog-id="${p.id}" data-prog-field="mech">${p.mech}</span></div>
+        <div class="card-box">
+          <strong>Kendaraan KPI Eksisting:</strong> <span class="editable-text" contenteditable="true" data-prog-id="${p.id}" data-prog-field="kpi">${p.kpi}</span><br>
+          <strong>Bukti Dampak:</strong> <span class="editable-text" contenteditable="true" data-prog-id="${p.id}" data-prog-field="impact">${p.impact}</span>
+        </div>
+        <div class="card-box">
+          <strong>Rincian Jadwal Bulanan:</strong>
+          <ul style="margin-left:16px;margin-top:4px;">${activeList || '<li>Belum ada bulan aktif</li>'}</ul>
+        </div>
+      </div>
+      <div class="card-actions btn-edit-only">
+        <button class="btn btn-outline" style="flex:1;justify-content:center;" onclick="openProgramModal('${p.id}')">Edit Form</button>
+        <button class="btn btn-danger" onclick="quickDeleteProgram('${p.id}')">Hapus</button>
+      </div>
+    </div>`;
+  }).join('') + `</div>`;
+}
+
+function renderRefCards() {
+  document.getElementById('refGrid').innerHTML = refCards.map((c, idx) => `
+    <div class="ref-item">
+      <strong class="editable-text" contenteditable="true" data-ref-idx="${idx}" data-ref-field="title">${c.title}</strong>
+      <div class="editable-text" contenteditable="true" data-ref-idx="${idx}" data-ref-field="body">${c.body}</div>
+    </div>
+  `).join('');
+}
+
+function addRefCard() {
+  refCards.push({
+    title: `${refCards.length + 1}. Catatan Strategis Baru`,
+    body: 'Klik di sini untuk menuliskan catatan tambahan atau penyesuaian strategi di lapangan.'
+  });
+  saveAll();
+  renderRefCards();
+  bindInlineEdits();
+}
+
+function render() {
+  applyStaticUITexts();
+  populateQuarterFilter();
+  populateSegmentFilter();
+  populateLabelSelects();
+  update3on3ButtonLabels();
+  populateQuickAddBar();
+  const list = getFilteredPrograms();
+  renderKPIs(list);
+  document.getElementById('contentArea').innerHTML = currentView === 'gantt' ? renderGantt(list) : renderCards(list);
+  renderRefCards();
+  bindInlineEdits();
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('tabGantt').classList.toggle('active', v === 'gantt');
+  document.getElementById('tabCards').classList.toggle('active', v === 'cards');
+  render();
+}
+
+function openProgramModal(id = null) {
+  populateLabelSelects();
+  const grid = document.getElementById('monthEditorGrid');
+  const p = id ? programs.find(x => x.id === id) : {
+    id: '', name: 'Inisiatif Baru 2027', ket: labels[0] || '', seg: 'Lapangan', quarter: 'Q1',
+    el3on3: 'PCS', mech: '', kpi: '', impact: '', months: { 0: 'M1-M4 Persiapan & eksekusi' }
+  };
+
+  document.getElementById('modalTitle').textContent = id ? 'Edit Inisiatif & Jadwal Bulanan' : 'Tambah Inisiatif Baru 2027';
+  document.getElementById('progId').value = id || '';
+  document.getElementById('progName').value = p.name;
+  document.getElementById('progKet').value = p.ket;
+  document.getElementById('progSeg').value = p.seg;
+  document.getElementById('progQuarter').value = p.quarter;
+  const p3Arr = normalize3on3Array(p.el3on3);
+  document.getElementById('prog3on3Checks').innerHTML = DEFAULT_3ON3_ELEMENTS.map((opt, idx) =>
+    `<label class="chk-dd-item" style="padding:2px 4px;"><input type="checkbox" id="m3on3_${idx}" value="${opt}" ${p3Arr.includes(opt) ? 'checked' : ''}><span>${opt}</span></label>`
+  ).join('');
+  document.getElementById('progMech').value = p.mech;
+  document.getElementById('progKpi').value = p.kpi;
+  document.getElementById('progImpact').value = p.impact;
+  document.getElementById('btnDeleteProg').style.display = id ? 'inline-flex' : 'none';
+
+  grid.innerHTML = MONTHS.map((m, idx) => {
+    const val = p.months[idx] || '';
+    return `<div class="me-box">
+      <label><input type="checkbox" id="chk_m_${idx}" ${val ? 'checked' : ''}> ${m} 2027</label>
+      <input type="text" id="txt_m_${idx}" value="${val.replace(/"/g, '&quot;')}" placeholder="Rincian M1-M4...">
+    </div>`;
+  }).join('');
+
+  document.getElementById('programModal').classList.add('open');
+}
+
+function saveProgram(e) {
+  e.preventDefault();
+  const existingId = document.getElementById('progId').value;
+  const monthsObj = {};
+  MONTHS.forEach((_, idx) => {
+    if (document.getElementById(`chk_m_${idx}`).checked) {
+      monthsObj[idx] = document.getElementById(`txt_m_${idx}`).value.trim() || 'Aktif';
+    }
+  });
+
+  const payload = {
+    id: existingId || ('p' + Date.now()),
+    name: document.getElementById('progName').value.trim(),
+    ket: document.getElementById('progKet').value,
+    seg: document.getElementById('progSeg').value,
+    quarter: document.getElementById('progQuarter').value,
+    el3on3: (() => {
+      const chosen = DEFAULT_3ON3_ELEMENTS.filter((_, idx) => {
+        const el = document.getElementById('m3on3_' + idx);
+        return el && el.checked;
+      });
+      return chosen.length ? chosen : ['Excellence'];
+    })(),
+    mech: document.getElementById('progMech').value.trim(),
+    kpi: document.getElementById('progKpi').value.trim(),
+    impact: document.getElementById('progImpact').value.trim(),
+    months: monthsObj
+  };
+
+  if (existingId) {
+    const i = programs.findIndex(x => x.id === existingId);
+    programs[i] = payload;
+  } else {
+    programs.push(payload);
+  }
+  saveAll();
+  closeModal('programModal');
+  render();
+}
+
+function quickDeleteProgram(id) {
+  programs = programs.filter(x => x.id !== id);
+  saveAll();
+  render();
+}
+
+function deleteProgram() {
+  const id = document.getElementById('progId').value;
+  if (!id) return;
+  quickDeleteProgram(id);
+  closeModal('programModal');
+}
+
+function openLabelsModal() {
+  document.getElementById('labelsTextarea').value = labels.join('\n');
+  document.getElementById('labelsModal').classList.add('open');
+}
+
+function saveLabels() {
+  const lines = document.getElementById('labelsTextarea').value.split('\n').map(s => s.trim()).filter(Boolean);
+  if (lines.length) {
+    labels = lines;
+    saveAll();
+    populateLabelSelects();
+    render();
+  }
+  closeModal('labelsModal');
+}
+
+function resetAllTextsAndData() {
+  if (!confirm('Kembalikan semua teks, judul, catatan, dan jadwal ke bawaan awal?')) return;
+  localStorage.removeItem('ptpn_labels_2027_v3');
+  localStorage.removeItem('ptpn_3on3_2027_v3');
+  elements3on3 = [...DEFAULT_3ON3_ELEMENTS];
+  localStorage.removeItem('ptpn_programs_2027_v3');
+  localStorage.removeItem('ptpn_uitexts_2027_v3');
+  localStorage.removeItem('ptpn_refcards_2027_v3');
+  labels = [...DEFAULT_LABELS];
+  programs = JSON.parse(JSON.stringify(DEFAULT_PROGRAMS));
+  uiTexts = Object.assign({}, DEFAULT_UI_TEXTS);
+  refCards = JSON.parse(JSON.stringify(DEFAULT_REF_CARDS));
+  populateLabelSelects();
+  render();
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function togglePresentMode() {
+  document.body.classList.toggle('present-mode');
+  const active = document.body.classList.contains('present-mode');
+  document.getElementById('btnPresent').textContent = active ? 'Keluar Mode Presentasi' : 'Mode Presentasi';
+}
+
+function exportCSV() {
+  const headers = ['Keterangan Pelaksanaan', 'Kuartal', 'Nama Program', 'Segmen', 'Pilar 3ON3', 'Mekanisme Lapangan', 'KPI Eksisting', 'Bukti Dampak', ...MONTHS];
+  const rows = getFilteredPrograms().map(p => [
+    p.ket, p.quarter, p.name, p.seg, normalize3on3Array(p.el3on3).join(' | '), p.mech, p.kpi, p.impact,
+    ...MONTHS.map((_, i) => p.months[i] || '')
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Roadmap_Talent_Culture_2027_PTPN4_Reg5.csv';
+  a.click();
+}
+
+populateLabelSelects();
+render();
+if (gasWebAppUrl) {
+  pullFromGoogleSheet(true);
+  startPollingLoop();
+} else {
+  setSyncStatus('', 'Mode Lokal');
+}
+</script>
+</body>
+</html>
